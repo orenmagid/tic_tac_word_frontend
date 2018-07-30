@@ -1,16 +1,16 @@
 document.getElementById("user-form").addEventListener("submit", event => {
-  document.getElementById("username").value = ``;
   event.preventDefault();
 
-  let username = document.getElementById("username").value;
+  let username = document.getElementById("username-input").value;
   getUser(username);
+  document.getElementById("username-input").value = ``;
 });
 
 let currentUser;
 let gameBoard = document.querySelector(".game-board");
 let currentBoard;
 let gameInformation;
-let score = document.getElementById("score");
+let score = document.getElementById("current-game-score");
 let results = document.getElementById("results");
 
 function getUser(username) {
@@ -25,7 +25,7 @@ function checkForExistingUser(users, username) {
   users.forEach(function(user) {
     if (user.username === username) {
       currentUser = new User(user.username, user.id);
-      console.log(currentUser);
+      displayUser(currentUser);
     }
   });
   if (currentUser === undefined) {
@@ -46,12 +46,19 @@ function postUser(username) {
     .then(response => response.json())
     .then(function(user) {
       currentUser = new User(user.username, user.id);
-      console.log(currentUser);
+      displayUser(currentUser);
     });
+}
+
+function displayUser(currentUser) {
+  console.log(currentUser);
+  let userInfoP = document.getElementById("username-display");
+  userInfoP.innerHTML = `Currently logged in as: ${currentUser.username}`;
 }
 
 let startButton = document.getElementById("start-button");
 startButton.addEventListener("click", function() {
+  startButton.style.display = "none";
   gameBoard = document.querySelector(".game-board");
   gameBoard.style.display = "block";
   currentBoard = new Board(currentUser);
@@ -62,14 +69,13 @@ startButton.addEventListener("click", function() {
     gameInformation = document.getElementById("game-information");
     gameInformation.style.display = "block";
     currentBoard[squareClicked] = "clicked";
-    console.log(squareClicked);
   });
 });
 
-function fetchRandomWord(squareClicked) {
+function fetchRandomWord(square) {
   fetch(`http://localhost:3000/api/v1/words`)
     .then(response => response.json())
-    .then(word => displayWord(word, squareClicked));
+    .then(word => displayWord(word, square));
 }
 
 function displayWord(word, square) {
@@ -120,7 +126,7 @@ function displayLose(square) {
 
 function displayWin(square, returnedWord, jsonData) {
   console.log("displayWin");
-  score.innerHTML = `Score: ${(currentBoard.score += Math.floor(
+  score.innerHTML = `Current Score: ${(currentBoard.score += Math.floor(
     (returnedWord.score / jsonData[0].score) * 100
   ))}`;
   results.innerHTML = `Correct! You've earned ${Math.floor(

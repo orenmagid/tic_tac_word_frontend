@@ -58,6 +58,7 @@ startButton.addEventListener("click", function() {
     gameInformation = document.getElementById("game-information");
     gameInformation.style.display = "block";
     currentBoard[squareClicked] = "clicked";
+    console.log(squareClicked);
   });
 });
 
@@ -67,7 +68,7 @@ function fetchRandomWord(squareClicked) {
     .then(word => displayWord(word, squareClicked));
 }
 
-function displayWord(word, squareClicked) {
+function displayWord(word, square) {
   let wordDisplay = document.getElementById("word");
   wordDisplay.innerHTML = `${word.label}`;
   let guessButton = document.getElementById("guess-button");
@@ -86,20 +87,19 @@ function displayWord(word, squareClicked) {
             results.innerHTML = `Correct! You've earned ${Math.floor(
               (returnedWord.score / jsonData[0].score) * 100
             )} points with the word "${returnedWord.word}".`;
-            document.getElementById(`${squareClicked}`).innerHTML = "X";
-            currentBoard[squareClicked] = "X";
-          }
-
-          let simpleReturnedWordArray = jsonData.map(function(returnedWord) {
-            return returnedWord.word;
-          });
-
-          if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
-            results.innerHTML = "Nope! The computer gets an O!";
-            currentBoard[squareClicked] = "O";
-            document.getElementById(`${squareClicked}`).innerHTML = "O";
+            document.getElementById(`${square}`).innerHTML = "X";
+            currentBoard[square] = "X";
           }
         });
+        let simpleReturnedWordArray = jsonData.map(function(returnedWord) {
+          return returnedWord.word;
+        });
+
+        if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
+          results.innerHTML = "Nope! The computer gets an O!";
+          currentBoard[square] = "O";
+          document.getElementById(`${square}`).innerHTML = "O";
+        }
         gameInformation.style.display = "none";
         let guessInput = document.getElementById("guess");
         guessInput.value = "";

@@ -1,0 +1,1 @@
+- We need to show the user that a user has been found and display a button to log out or stop playing and perhaps make the user form disappear unless the user logs out or stops playing.

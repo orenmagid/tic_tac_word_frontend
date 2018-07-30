@@ -12,6 +12,7 @@ let currentBoard;
 let gameInformation;
 let score = document.getElementById("current-game-score");
 let results = document.getElementById("results");
+let square;
 
 function getUser(username) {
   fetch(`http://localhost:3000/api/v1/users`)
@@ -64,50 +65,50 @@ startButton.addEventListener("click", function() {
   currentBoard = new Board(currentUser);
   gameBoard.addEventListener("click", function(event) {
     results.innerHTML = "";
-    let squareClicked = event.target.id;
-    fetchRandomWord(squareClicked);
+    square = event.target.id;
+    fetchRandomWord();
     gameInformation = document.getElementById("game-information");
     gameInformation.style.display = "block";
-    currentBoard[squareClicked] = "clicked";
+    currentBoard[square] = "clicked";
   });
 });
 
-function fetchRandomWord(square) {
+function fetchRandomWord() {
   fetch(`http://localhost:3000/api/v1/words`)
     .then(response => response.json())
-    .then(word => displayWord(word, square));
+    .then(word => displayWord(word));
 }
 
-function displayWord(word, square) {
+function displayWord(word) {
   let wordDisplay = document.getElementById("word");
   wordDisplay.innerHTML = `${word.label}`;
   let guessButton = document.getElementById("guess-button");
   guessButton.addEventListener("click", function(event) {
     let guessValue = document.getElementById("guess").value.toLowerCase();
 
-    fetchSimilarWords(word, guessValue, square);
+    fetchSimilarWords(word, guessValue);
   });
 }
 
-function fetchSimilarWords(word, guessValue, square) {
+function fetchSimilarWords(word, guessValue) {
   fetch(`http://api.datamuse.com/words?ml=${word.label}`)
     .then(response => response.json())
     .then(jsonData => {
-      checkforMatches(jsonData, guessValue, square);
+      checkforMatches(jsonData, guessValue);
     });
 }
 
-function checkforMatches(jsonData, guessValue, square) {
+function checkforMatches(jsonData, guessValue) {
   let simpleReturnedWordArray = jsonData.map(function(returnedWord) {
     return returnedWord.word;
   });
 
   if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
-    displayLose(square);
+    displayLose();
   } else {
     jsonData.forEach(function(returnedWord) {
       if (guessValue == returnedWord.word) {
-        displayWin(square, returnedWord, jsonData);
+        displayWin(returnedWord, jsonData);
       }
     });
   }
@@ -117,15 +118,15 @@ function checkforMatches(jsonData, guessValue, square) {
   guessInput.value = "";
 }
 
-function displayLose(square) {
+function displayLose() {
   console.log("displayLose", square);
   results.innerHTML = "Nope! The computer gets an O!";
   currentBoard[square] = "O";
   document.getElementById(`${square}`).innerHTML = "O";
 }
 
-function displayWin(square, returnedWord, jsonData) {
-  console.log("displayWin");
+function displayWin(returnedWord, jsonData) {
+  console.log("displayWin", square);
   score.innerHTML = `Current Score: ${(currentBoard.score += Math.floor(
     (returnedWord.score / jsonData[0].score) * 100
   ))}`;

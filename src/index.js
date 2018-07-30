@@ -76,34 +76,43 @@ function displayWord(word, square) {
   let results = document.getElementById("results");
   guessButton.addEventListener("click", function(event) {
     let guessValue = document.getElementById("guess").value.toLowerCase();
-    fetch(`http://api.datamuse.com/words?ml=${word.label}`)
-      .then(response => response.json())
-      .then(jsonData => {
-        jsonData.forEach(function(returnedWord) {
-          if (guessValue == returnedWord.word) {
-            score.innerHTML = `Score: ${(currentBoard.score += Math.floor(
-              (returnedWord.score / jsonData[0].score) * 100
-            ))}`;
-            results.innerHTML = `Correct! You've earned ${Math.floor(
-              (returnedWord.score / jsonData[0].score) * 100
-            )} points with the word "${returnedWord.word}".`;
-            document.getElementById(`${square}`).innerHTML = "X";
-            currentBoard[square] = "X";
-          }
-        });
-        let simpleReturnedWordArray = jsonData.map(function(returnedWord) {
-          return returnedWord.word;
-        });
 
-        if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
-          results.innerHTML = "Nope! The computer gets an O!";
-          currentBoard[square] = "O";
-          document.getElementById(`${square}`).innerHTML = "O";
-        }
-        gameInformation.style.display = "none";
-        let guessInput = document.getElementById("guess");
-        guessInput.value = "";
-        results.innerHTML = "";
-      });
+    fetchSimilarWords(word);
   });
+}
+
+function fetchSimilarWords(word) {
+  fetch(`http://api.datamuse.com/words?ml=${word.label}`)
+    .then(response => response.json())
+    .then(jsonData => {
+      checkforMatches(jsonData);
+    });
+}
+
+function checkforMatches(jsonData) {
+  jsonData.forEach(function(returnedWord) {
+    if (guessValue == returnedWord.word) {
+      score.innerHTML = `Score: ${(currentBoard.score += Math.floor(
+        (returnedWord.score / jsonData[0].score) * 100
+      ))}`;
+      results.innerHTML = `Correct! You've earned ${Math.floor(
+        (returnedWord.score / jsonData[0].score) * 100
+      )} points with the word "${returnedWord.word}".`;
+      document.getElementById(`${square}`).innerHTML = "X";
+      currentBoard[square] = "X";
+    }
+  });
+  let simpleReturnedWordArray = jsonData.map(function(returnedWord) {
+    return returnedWord.word;
+  });
+
+  if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
+    results.innerHTML = "Nope! The computer gets an O!";
+    currentBoard[square] = "O";
+    document.getElementById(`${square}`).innerHTML = "O";
+  }
+  gameInformation.style.display = "none";
+  let guessInput = document.getElementById("guess");
+  guessInput.value = "";
+  results.innerHTML = "";
 }

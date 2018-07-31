@@ -101,14 +101,19 @@ startButton.addEventListener("click", function() {
 function fetchRandomWord() {
   fetch(`http://localhost:3000/api/v1/words`)
     .then(response => response.json())
-    .then(word => displayWord(word));
+    .then(function(word) {
+      console.log("fetchRandomWord", word);
+      displayWord(word);
+    });
 }
 
 function displayWord(word) {
-  let wordDisplay = document.getElementById("word");
+  console.log("displayWord", word);
+  let wordDisplay = document.getElementById("word-display");
   wordDisplay.innerHTML = `${word.label}`;
-  let guessButton = document.getElementById("guess-button");
-  guessButton.addEventListener("click", function(event) {
+  let guessForm = document.getElementById("guess-form");
+  guessForm.addEventListener("submit", function(event) {
+    event.preventDefault();
     let guessValue = document.getElementById("guess").value.toLowerCase();
 
     fetchSimilarWords(word, guessValue);
@@ -116,6 +121,7 @@ function displayWord(word) {
 }
 
 function fetchSimilarWords(word, guessValue) {
+  console.log("fetchSimilarWords", word, guessValue);
   fetch(`http://api.datamuse.com/words?ml=${word.label}`)
     .then(response => response.json())
     .then(jsonData => {

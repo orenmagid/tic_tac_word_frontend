@@ -20,7 +20,7 @@
     </div>
     <div id="game-container">
       <button type="button" id="start-button" name="start-button">Start New Game</button>
-      
+
       <div class="game-board hide">
         <div class="game-board-row">
           <div class="game-board-space" id="r1c1" data-space="1,1"></div>
@@ -39,9 +39,11 @@
         </div>
     </div>
       <div class="hide" id="game-information">
-        <h2 id="word"></h2>
-        <input id="guess" type="text" placeholder="Type Your Guess Here">
-        <button type="button" id="guess-button" name="guess-button">Submit Your Guess</button>
+        <h2 id="word-display"></h2>
+        <form id="guess-form">
+          <input id="guess" type="text" placeholder="Type Your Guess Here">
+          <input type="submit" id="guess-button" name="guess-button" value="Submit Your Guess">
+        </form>
 
       </div>
 

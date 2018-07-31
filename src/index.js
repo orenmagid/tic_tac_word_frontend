@@ -11,7 +11,7 @@ let gameBoard = document.querySelector(".game-board");
 let currentBoard;
 let gameInformation;
 let score = document.getElementById("current-game-score");
-let results = document.getElementById("results");
+let results = document.getElementById("word-results");
 let square;
 
 function getUser(username) {
@@ -60,10 +60,18 @@ function displayUser(currentUser) {
   logOutButton.innerHTML = "Log Out";
   userInfoDiv.appendChild(logOutButton);
 
+  let loginForm = document.getElementById("user-form");
+  loginForm.style.display = "none";
+
+  let startButton = document.getElementById("start-button");
+  startButton.style.display = "block";
+
   logOutButton.addEventListener("click", function() {
     currentUser = null;
     userInfoP.innerHTML = ``;
     userInfoDiv.removeChild(logOutButton);
+    loginForm.style.display = "block";
+    startButton.style.display = "none";
   });
 }
 
@@ -226,11 +234,11 @@ function checkForWinner() {
 
 function declareWinner(winningSymbol) {
   if (winningSymbol === "X") {
-    console.log("You win!", winningSymbol);
+    document.getElementById("game-results").innerHTML = `You win!`;
     gameBoard.style.display = "none";
   }
   if (winningSymbol === "O") {
-    console.log("You lose!", winningSymbol);
+    document.getElementById("game-results").innerHTML = `You lose!`;
     gameBoard.style.display = "none";
   }
 }

@@ -1,5 +1,6 @@
 document.getElementById("user-form").addEventListener("submit", event => {
   event.preventDefault();
+  userInfoDiv.style.display = "block";
 
   let username = document.getElementById("username-input").value;
   getUser(username);
@@ -9,15 +10,17 @@ document.getElementById("user-form").addEventListener("submit", event => {
 let currentUser;
 let gameBoard = document.querySelector(".game-board");
 let currentBoard;
-let gameInformation;
+let gameInformation = document.getElementById("game-information");
 let score = document.getElementById("current-game-score");
 let results = document.getElementById("word-results");
 let gameResults = document.getElementById("game-results");
 let square;
 let startButton;
-let gameSaveButton;
-let savedGamesList = document.getElementById("saved-games");
+let gameSaveButton = document.createElement("button");
+let savedGamesList = document.getElementById("saved-games-list");
 let userBoards;
+let userInfoDiv = document.getElementById("user-info");
+let logOutButton;
 
 function getUser(username) {
   fetch(`http://localhost:3000/api/v1/users`)
@@ -36,6 +39,7 @@ function checkForExistingUser(users, username) {
     }
   });
   if (currentUser === undefined) {
+    userBoards = null;
     postUser(username);
   }
 }
@@ -58,10 +62,10 @@ function postUser(username) {
 }
 
 function displayUser() {
-  let userInfoP = document.getElementById("username-display");
-  userInfoP.innerHTML = `Currently logged in as: ${currentUser.username}`;
-  let userInfoDiv = document.getElementById("user-info");
-  let logOutButton = document.createElement("button");
+  let userInfoH3 = document.getElementById("username-display");
+  userInfoH3.innerHTML = `Currently logged in as: ${currentUser.username}`;
+
+  logOutButton = document.createElement("button");
   logOutButton.innerHTML = "Log Out";
   userInfoDiv.appendChild(logOutButton);
 
@@ -73,7 +77,8 @@ function displayUser() {
 
   logOutButton.addEventListener("click", function() {
     currentUser = null;
-    userInfoP.innerHTML = ``;
+    userInfoDiv.style.display = "none";
+    userInfoH3.innerHTML = ``;
     userInfoDiv.removeChild(logOutButton);
     loginForm.style.display = "block";
     startButton.style.display = "none";
@@ -84,6 +89,7 @@ function displayUser() {
     gameResults.innerHTML = ``;
     results.innerHTML = ``;
     score.innerHTML = "";
+    savedGamesList.innerHTML = "";
   });
   displayBoards();
 }
@@ -92,7 +98,7 @@ startButton = document.getElementById("start-button");
 startButton.addEventListener("click", function() {
   clearBoard();
   let currentGameDiv = document.getElementById("current-game-info");
-  gameSaveButton = document.createElement("button");
+
   gameSaveButton.innerText = "Save Current Game";
   currentGameDiv.appendChild(gameSaveButton);
   gameSaveButton.addEventListener("click", function() {
@@ -102,6 +108,9 @@ startButton.addEventListener("click", function() {
     score.innerHTML = "";
     gameSaveButton.style.display = "none";
     gameBoard.style.display = "none";
+    let userInfoDiv = document.getElementById("user-info");
+    userInfoDiv.removeChild(logOutButton);
+    getUser(currentUser.username);
   });
 
   startButton.style.display = "none";
@@ -114,19 +123,23 @@ startButton.addEventListener("click", function() {
     results.innerHTML = "";
     square = event.target.id;
     fetchRandomWord();
-    gameInformation = document.getElementById("game-information");
+
     gameInformation.style.display = "block";
     currentBoard[square] = "clicked";
   });
 });
 
 function displayBoards() {
-  userBoards.forEach(function(board) {
-    let savedGameLi = document.createElement("li");
-    // savedGameLi.style.display = "inline";
-    savedGameLi.innerHTML = `<a href="#">${board.status}, ${board.score}</a>`;
-    savedGamesList.appendChild(savedGameLi);
-  });
+  savedGamesList.innerHTML = "";
+  if (userBoards !== null) {
+    document.getElementById("saved-games-heading").style.display = "block";
+    userBoards.forEach(function(board) {
+      let savedGameLi = document.createElement("li");
+      // savedGameLi.style.display = "inline";
+      savedGameLi.innerHTML = `<a href="#">${board.status}, ${board.score}</a>`;
+      savedGamesList.appendChild(savedGameLi);
+    });
+  }
 }
 
 function fetchRandomWord() {
@@ -294,6 +307,7 @@ function declareWinner(winningSymbol) {
   }
   currentBoard.status = "completed";
   postBoard();
+  gameSaveButton.style.display = "none";
 }
 
 function postBoard() {

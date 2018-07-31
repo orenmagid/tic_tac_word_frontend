@@ -74,7 +74,10 @@ function displayUser(currentUser) {
     userInfoDiv.removeChild(logOutButton);
     loginForm.style.display = "block";
     startButton.style.display = "none";
+    clearBoard();
+    gameBoard.style.display = "none";
     gameResults.innerHTML = ``;
+    results.innerHTML = ``;
   });
 }
 

@@ -111,12 +111,17 @@ function displayWord(word) {
   console.log("displayWord", word);
   let wordDisplay = document.getElementById("word-display");
   wordDisplay.innerHTML = `${word.label}`;
+  grabGuess(word);
+}
+
+function grabGuess(word) {
   let guessForm = document.getElementById("guess-form");
   guessForm.addEventListener("submit", function(event) {
     event.preventDefault();
     let guessValue = document.getElementById("guess").value.toLowerCase();
-
     fetchSimilarWords(word, guessValue);
+    var new_element = guessForm.cloneNode(true);
+    guessForm.parentNode.replaceChild(new_element, guessForm);
   });
 }
 

@@ -12,7 +12,9 @@ let currentBoard;
 let gameInformation;
 let score = document.getElementById("current-game-score");
 let results = document.getElementById("word-results");
+let gameResults = document.getElementById("game-results");
 let square;
+let startButton;
 
 function getUser(username) {
   fetch(`http://localhost:3000/api/v1/users`)
@@ -72,12 +74,14 @@ function displayUser(currentUser) {
     userInfoDiv.removeChild(logOutButton);
     loginForm.style.display = "block";
     startButton.style.display = "none";
+    gameResults.innerHTML = ``;
   });
 }
 
-let startButton = document.getElementById("start-button");
+startButton = document.getElementById("start-button");
 startButton.addEventListener("click", function() {
   startButton.style.display = "none";
+  gameResults.innerHTML = ``;
   gameBoard = document.querySelector(".game-board");
   gameBoard.style.display = "block";
   currentBoard = new Board(currentUser);
@@ -166,6 +170,7 @@ function checkForWinner() {
     currentBoard.r1c2 === currentBoard.r1c3
   ) {
     declareWinner(currentBoard.r1c1);
+    clearBoard();
     return;
   }
   if (
@@ -174,6 +179,7 @@ function checkForWinner() {
     currentBoard.r2c2 === currentBoard.r2c3
   ) {
     declareWinner(currentBoard.r2c1);
+    clearBoard();
     return;
   }
   if (
@@ -182,6 +188,7 @@ function checkForWinner() {
     currentBoard.r3c2 === currentBoard.r3c3
   ) {
     declareWinner(currentBoard.r3c);
+    clearBoard();
     return;
   }
 
@@ -192,6 +199,7 @@ function checkForWinner() {
     currentBoard.r2c1 === currentBoard.r3c1
   ) {
     declareWinner(currentBoard.r1c1);
+    clearBoard();
     return;
   }
   if (
@@ -200,6 +208,7 @@ function checkForWinner() {
     currentBoard.r2c2 === currentBoard.r3c2
   ) {
     declareWinner(currentBoard.r1c2);
+    clearBoard();
     return;
   }
   if (
@@ -208,6 +217,7 @@ function checkForWinner() {
     currentBoard.r2c3 === currentBoard.r3c3
   ) {
     declareWinner(currentBoard.r1c3);
+    clearBoard();
     return;
   }
 
@@ -218,6 +228,7 @@ function checkForWinner() {
     currentBoard.r2c2 === currentBoard.r3c3
   ) {
     declareWinner(currentBoard.r1c);
+    clearBoard();
     return;
   }
 
@@ -228,17 +239,21 @@ function checkForWinner() {
     currentBoard.r2c2 === currentBoard.r1c3
   ) {
     declareWinner(currentBoard.r3c1);
+    clearBoard();
     return;
   }
 }
 
 function declareWinner(winningSymbol) {
+  startButton.style.display = "block";
+  gameBoard.style.display = "none";
+  results.innerHTML = "";
   if (winningSymbol === "X") {
-    document.getElementById("game-results").innerHTML = `You win!`;
-    gameBoard.style.display = "none";
+    gameResults.innerHTML = `You win!`;
   }
   if (winningSymbol === "O") {
-    document.getElementById("game-results").innerHTML = `You lose!`;
-    gameBoard.style.display = "none";
+    gameResults.innerHTML = `You lose!`;
   }
 }
+
+function clearBoard() {}

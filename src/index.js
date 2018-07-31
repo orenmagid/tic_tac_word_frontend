@@ -164,6 +164,22 @@ function fetchRandomWord() {
     .then(function(word) {
       console.log("fetchRandomWord", word);
       displayWord(word);
+      patchWord(word);
+    });
+}
+
+function patchWord(word) {
+  let data = { user_ids: currentUser.id };
+  fetch(`http://localhost:3000/api/v1/words/${word.id}`, {
+    method: "PATCH",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(word => {
+      console.log(word);
     });
 }
 

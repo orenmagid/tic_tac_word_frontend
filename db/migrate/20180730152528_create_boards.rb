@@ -4,6 +4,7 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       t.integer :user_id
       t.string :status
       t.integer :score
+      t.string :play_date
       t.string :r1c1
       t.string :r1c2
       t.string :r1c3

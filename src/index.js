@@ -15,6 +15,9 @@ let results = document.getElementById("word-results");
 let gameResults = document.getElementById("game-results");
 let square;
 let startButton;
+let gameSaveButton;
+let savedGamesList = document.getElementById("saved-games");
+let userBoards;
 
 function getUser(username) {
   fetch(`http://localhost:3000/api/v1/users`)
@@ -28,7 +31,8 @@ function checkForExistingUser(users, username) {
   users.forEach(function(user) {
     if (user.username === username) {
       currentUser = new User(user.username, user.id);
-      displayUser(currentUser);
+      userBoards = user.boards;
+      displayUser();
     }
   });
   if (currentUser === undefined) {
@@ -49,11 +53,11 @@ function postUser(username) {
     .then(response => response.json())
     .then(function(user) {
       currentUser = new User(user.username, user.id);
-      displayUser(currentUser);
+      displayUser();
     });
 }
 
-function displayUser(currentUser) {
+function displayUser() {
   let userInfoP = document.getElementById("username-display");
   userInfoP.innerHTML = `Currently logged in as: ${currentUser.username}`;
   let userInfoDiv = document.getElementById("user-info");
@@ -76,14 +80,30 @@ function displayUser(currentUser) {
     clearBoard();
     gameInformation.style.display = "none";
     gameBoard.style.display = "none";
+    gameSaveButton.style.display = "none";
     gameResults.innerHTML = ``;
     results.innerHTML = ``;
+    score.innerHTML = "";
   });
+  displayBoards();
 }
 
 startButton = document.getElementById("start-button");
 startButton.addEventListener("click", function() {
   clearBoard();
+  let currentGameDiv = document.getElementById("current-game-info");
+  gameSaveButton = document.createElement("button");
+  gameSaveButton.innerText = "Save Current Game";
+  currentGameDiv.appendChild(gameSaveButton);
+  gameSaveButton.addEventListener("click", function() {
+    currentBoard.status = "In progress";
+    postBoard();
+    results.innerHTML = "";
+    score.innerHTML = "";
+    gameSaveButton.style.display = "none";
+    gameBoard.style.display = "none";
+  });
+
   startButton.style.display = "none";
   gameResults.innerHTML = ``;
   gameBoard = document.querySelector(".game-board");
@@ -99,6 +119,15 @@ startButton.addEventListener("click", function() {
     currentBoard[square] = "clicked";
   });
 });
+
+function displayBoards() {
+  userBoards.forEach(function(board) {
+    let savedGameLi = document.createElement("li");
+    // savedGameLi.style.display = "inline";
+    savedGameLi.innerHTML = `<a href="#">${board.status}, ${board.score}</a>`;
+    savedGamesList.appendChild(savedGameLi);
+  });
+}
 
 function fetchRandomWord() {
   fetch(`http://localhost:3000/api/v1/words`)
@@ -263,25 +292,24 @@ function declareWinner(winningSymbol) {
   if (winningSymbol === "O") {
     gameResults.innerHTML = `The computer got three Os in a row. You lose!`;
   }
+  currentBoard.status = "completed";
   postBoard();
 }
 
 function postBoard() {
   let data = {
     user_id: currentBoard.user_id,
-    status: "completed",
+    status: currentBoard.status,
     score: currentBoard.score,
-    squares: {
-      r1c1: currentBoard.r1c1,
-      r1c2: currentBoard.r1c2,
-      r1c3: currentBoard.r1c3,
-      r2c1: currentBoard.r2c1,
-      r2c2: currentBoard.r2c2,
-      r2c3: currentBoard.r2c3,
-      r3c1: currentBoard.r3c1,
-      r3c2: currentBoard.r3c2,
-      r3c3: currentBoard.r3c3
-    }
+    r1c1: currentBoard.r1c1,
+    r1c2: currentBoard.r1c2,
+    r1c3: currentBoard.r1c3,
+    r2c1: currentBoard.r2c1,
+    r2c2: currentBoard.r2c2,
+    r2c3: currentBoard.r2c3,
+    r3c1: currentBoard.r3c1,
+    r3c2: currentBoard.r3c2,
+    r3c3: currentBoard.r3c3
   };
 
   fetch(`http://localhost:3000/api/v1/boards`, {

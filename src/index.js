@@ -83,11 +83,13 @@ function displayUser(currentUser) {
 
 startButton = document.getElementById("start-button");
 startButton.addEventListener("click", function() {
+  clearBoard();
   startButton.style.display = "none";
   gameResults.innerHTML = ``;
   gameBoard = document.querySelector(".game-board");
   gameBoard.style.display = "block";
   currentBoard = new Board(currentUser);
+  score.innerHTML = `Current Score: ${currentBoard.score}`;
   gameBoard.addEventListener("click", function(event) {
     results.innerHTML = "";
     square = event.target.id;
@@ -185,7 +187,6 @@ function checkForWinner() {
     currentBoard.r1c1 === currentBoard.r1c2 &&
     currentBoard.r1c2 === currentBoard.r1c3
   ) {
-    clearBoard();
     declareWinner(currentBoard.r1c1);
     return;
   }
@@ -194,7 +195,6 @@ function checkForWinner() {
     currentBoard.r2c1 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r2c3
   ) {
-    clearBoard();
     declareWinner(currentBoard.r2c1);
     return;
   }
@@ -203,7 +203,6 @@ function checkForWinner() {
     currentBoard.r3c1 === currentBoard.r3c2 &&
     currentBoard.r3c2 === currentBoard.r3c3
   ) {
-    clearBoard();
     declareWinner(currentBoard.r3c);
     return;
   }
@@ -214,7 +213,6 @@ function checkForWinner() {
     currentBoard.r1c1 === currentBoard.r2c1 &&
     currentBoard.r2c1 === currentBoard.r3c1
   ) {
-    clearBoard();
     declareWinner(currentBoard.r1c1);
     return;
   }
@@ -223,7 +221,6 @@ function checkForWinner() {
     currentBoard.r1c2 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r3c2
   ) {
-    clearBoard();
     declareWinner(currentBoard.r1c2);
     return;
   }
@@ -232,7 +229,6 @@ function checkForWinner() {
     currentBoard.r1c3 === currentBoard.r2c3 &&
     currentBoard.r2c3 === currentBoard.r3c3
   ) {
-    clearBoard();
     declareWinner(currentBoard.r1c3);
     return;
   }
@@ -243,7 +239,6 @@ function checkForWinner() {
     currentBoard.r1c1 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r3c3
   ) {
-    clearBoard();
     declareWinner(currentBoard.r1c);
     return;
   }
@@ -254,7 +249,6 @@ function checkForWinner() {
     currentBoard.r3c1 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r1c3
   ) {
-    clearBoard();
     declareWinner(currentBoard.r3c1);
     return;
   }
@@ -262,7 +256,6 @@ function checkForWinner() {
 
 function declareWinner(winningSymbol) {
   startButton.style.display = "block";
-  // gameBoard.style.display = "none";
   results.innerHTML = "";
   if (winningSymbol === "X") {
     gameResults.innerHTML = `You got three Xs in a row. You win!`;
@@ -270,6 +263,38 @@ function declareWinner(winningSymbol) {
   if (winningSymbol === "O") {
     gameResults.innerHTML = `The computer got three Os in a row. You lose!`;
   }
+  postBoard();
+}
+
+function postBoard() {
+  let data = {
+    user_id: currentBoard.user_id,
+    status: "completed",
+    score: currentBoard.score,
+    squares: {
+      r1c1: currentBoard.r1c1,
+      r1c2: currentBoard.r1c2,
+      r1c3: currentBoard.r1c3,
+      r2c1: currentBoard.r2c1,
+      r2c2: currentBoard.r2c2,
+      r2c3: currentBoard.r2c3,
+      r3c1: currentBoard.r3c1,
+      r3c2: currentBoard.r3c2,
+      r3c3: currentBoard.r3c3
+    }
+  };
+
+  fetch(`http://localhost:3000/api/v1/boards`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(function(board) {
+      console.log(board);
+    });
 }
 
 function clearBoard() {

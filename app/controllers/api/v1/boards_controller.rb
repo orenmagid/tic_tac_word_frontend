@@ -1,7 +1,15 @@
 class Api::V1::BoardsController < ApplicationController
 
+  before_action :find_board, only: [:show]
+
   def index
     render json: Board.all
+  end
+
+  def show
+
+    render json: @board
+
   end
 
   def create
@@ -16,7 +24,12 @@ class Api::V1::BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:user_id, :status, :score, :squares => [:r1c1,:r1c2,:r1c3,:r2c1,:r2c2,:r2c3,:r3c1,:r3c2,:r3c3])
+    params.require(:board).permit(:user_id, :status, :score,:r1c1,:r1c2,:r1c3,:r2c1,:r2c2,:r2c3,:r3c1,:r3c2,:r3c3)
+
+  end
+
+  def find_board
+    @board = Board.find(params[:id])
 
   end
 end

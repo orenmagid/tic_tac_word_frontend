@@ -259,7 +259,7 @@ function checkForWinner() {
 
 function declareWinner(winningSymbol) {
   startButton.style.display = "block";
-  gameBoard.style.display = "none";
+  // gameBoard.style.display = "none";
   results.innerHTML = "";
   if (winningSymbol === "X") {
     gameResults.innerHTML = `You got three Xs in a row. You win!`;

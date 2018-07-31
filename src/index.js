@@ -55,6 +55,16 @@ function displayUser(currentUser) {
   console.log(currentUser);
   let userInfoP = document.getElementById("username-display");
   userInfoP.innerHTML = `Currently logged in as: ${currentUser.username}`;
+  let userInfoDiv = document.getElementById("user-info");
+  let logOutButton = document.createElement("button");
+  logOutButton.innerHTML = "Log Out";
+  userInfoDiv.appendChild(logOutButton);
+
+  logOutButton.addEventListener("click", function() {
+    currentUser = null;
+    userInfoP.innerHTML = ``;
+    userInfoDiv.removeChild(logOutButton);
+  });
 }
 
 let startButton = document.getElementById("start-button");
@@ -123,6 +133,7 @@ function displayLose() {
   results.innerHTML = "Nope! The computer gets an O!";
   currentBoard[square] = "O";
   document.getElementById(`${square}`).innerHTML = "O";
+  checkForWinner();
 }
 
 function displayWin(returnedWord, jsonData) {
@@ -136,4 +147,90 @@ function displayWin(returnedWord, jsonData) {
 
   document.getElementById(`${square}`).innerHTML = "X";
   currentBoard[square] = "X";
+  checkForWinner();
+}
+
+function checkForWinner() {
+  // horizontal non-null match
+  if (
+    currentBoard.r1c1 !== "" &&
+    currentBoard.r1c1 === currentBoard.r1c2 &&
+    currentBoard.r1c2 === currentBoard.r1c3
+  ) {
+    declareWinner(currentBoard.r1c1);
+    return;
+  }
+  if (
+    currentBoard.r2c1 !== "" &&
+    currentBoard.r2c1 === currentBoard.r2c2 &&
+    currentBoard.r2c2 === currentBoard.r2c3
+  ) {
+    declareWinner(currentBoard.r2c1);
+    return;
+  }
+  if (
+    currentBoard.r3c1 !== "" &&
+    currentBoard.r3c1 === currentBoard.r3c2 &&
+    currentBoard.r3c2 === currentBoard.r3c3
+  ) {
+    declareWinner(currentBoard.r3c);
+    return;
+  }
+
+  // vertical non-"" match
+  if (
+    currentBoard.r1c1 !== "" &&
+    currentBoard.r1c1 === currentBoard.r2c1 &&
+    currentBoard.r2c1 === currentBoard.r3c1
+  ) {
+    declareWinner(currentBoard.r1c1);
+    return;
+  }
+  if (
+    currentBoard.r1c2 !== "" &&
+    currentBoard.r1c2 === currentBoard.r2c2 &&
+    currentBoard.r2c2 === currentBoard.r3c2
+  ) {
+    declareWinner(currentBoard.r1c2);
+    return;
+  }
+  if (
+    currentBoard.r1c3 !== "" &&
+    currentBoard.r1c3 === currentBoard.r2c3 &&
+    currentBoard.r2c3 === currentBoard.r3c3
+  ) {
+    declareWinner(currentBoard.r1c3);
+    return;
+  }
+
+  // downward diagnal non-""-match
+  if (
+    currentBoard.r1c1 !== "" &&
+    currentBoard.r1c1 === currentBoard.r2c2 &&
+    currentBoard.r2c2 === currentBoard.r3c3
+  ) {
+    declareWinner(currentBoard.r1c);
+    return;
+  }
+
+  // upward diagnal non-""-match
+  if (
+    currentBoard.r3c1 !== "" &&
+    currentBoard.r3c1 === currentBoard.r2c2 &&
+    currentBoard.r2c2 === currentBoard.r1c3
+  ) {
+    declareWinner(currentBoard.r3c1);
+    return;
+  }
+}
+
+function declareWinner(winningSymbol) {
+  if (winningSymbol === "X") {
+    console.log("You win!", winningSymbol);
+    gameBoard.style.display = "none";
+  }
+  if (winningSymbol === "O") {
+    console.log("You lose!", winningSymbol);
+    gameBoard.style.display = "none";
+  }
 }

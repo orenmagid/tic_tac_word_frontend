@@ -54,7 +54,6 @@ function postUser(username) {
 }
 
 function displayUser(currentUser) {
-  console.log(currentUser);
   let userInfoP = document.getElementById("username-display");
   userInfoP.innerHTML = `Currently logged in as: ${currentUser.username}`;
   let userInfoDiv = document.getElementById("user-info");
@@ -75,6 +74,7 @@ function displayUser(currentUser) {
     loginForm.style.display = "block";
     startButton.style.display = "none";
     clearBoard();
+    gameInformation.style.display = "none";
     gameBoard.style.display = "none";
     gameResults.innerHTML = ``;
     results.innerHTML = ``;
@@ -119,11 +119,13 @@ function fetchSimilarWords(word, guessValue) {
   fetch(`http://api.datamuse.com/words?ml=${word.label}`)
     .then(response => response.json())
     .then(jsonData => {
-      checkforMatches(jsonData, guessValue);
+      checkForMatches(jsonData, guessValue);
+      console.log(jsonData);
     });
 }
 
-function checkforMatches(jsonData, guessValue) {
+function checkForMatches(jsonData, guessValue) {
+  console.log("checkForMatches", square);
   let simpleReturnedWordArray = jsonData.map(function(returnedWord) {
     return returnedWord.word;
   });
@@ -172,8 +174,8 @@ function checkForWinner() {
     currentBoard.r1c1 === currentBoard.r1c2 &&
     currentBoard.r1c2 === currentBoard.r1c3
   ) {
-    declareWinner(currentBoard.r1c1);
     clearBoard();
+    declareWinner(currentBoard.r1c1);
     return;
   }
   if (
@@ -181,8 +183,8 @@ function checkForWinner() {
     currentBoard.r2c1 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r2c3
   ) {
-    declareWinner(currentBoard.r2c1);
     clearBoard();
+    declareWinner(currentBoard.r2c1);
     return;
   }
   if (
@@ -190,8 +192,8 @@ function checkForWinner() {
     currentBoard.r3c1 === currentBoard.r3c2 &&
     currentBoard.r3c2 === currentBoard.r3c3
   ) {
-    declareWinner(currentBoard.r3c);
     clearBoard();
+    declareWinner(currentBoard.r3c);
     return;
   }
 
@@ -201,8 +203,8 @@ function checkForWinner() {
     currentBoard.r1c1 === currentBoard.r2c1 &&
     currentBoard.r2c1 === currentBoard.r3c1
   ) {
-    declareWinner(currentBoard.r1c1);
     clearBoard();
+    declareWinner(currentBoard.r1c1);
     return;
   }
   if (
@@ -210,8 +212,8 @@ function checkForWinner() {
     currentBoard.r1c2 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r3c2
   ) {
-    declareWinner(currentBoard.r1c2);
     clearBoard();
+    declareWinner(currentBoard.r1c2);
     return;
   }
   if (
@@ -219,8 +221,8 @@ function checkForWinner() {
     currentBoard.r1c3 === currentBoard.r2c3 &&
     currentBoard.r2c3 === currentBoard.r3c3
   ) {
-    declareWinner(currentBoard.r1c3);
     clearBoard();
+    declareWinner(currentBoard.r1c3);
     return;
   }
 
@@ -230,8 +232,8 @@ function checkForWinner() {
     currentBoard.r1c1 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r3c3
   ) {
-    declareWinner(currentBoard.r1c);
     clearBoard();
+    declareWinner(currentBoard.r1c);
     return;
   }
 
@@ -241,8 +243,8 @@ function checkForWinner() {
     currentBoard.r3c1 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r1c3
   ) {
-    declareWinner(currentBoard.r3c1);
     clearBoard();
+    declareWinner(currentBoard.r3c1);
     return;
   }
 }
@@ -252,10 +254,10 @@ function declareWinner(winningSymbol) {
   gameBoard.style.display = "none";
   results.innerHTML = "";
   if (winningSymbol === "X") {
-    gameResults.innerHTML = `You win!`;
+    gameResults.innerHTML = `You got three Xs in a row. You win!`;
   }
   if (winningSymbol === "O") {
-    gameResults.innerHTML = `You lose!`;
+    gameResults.innerHTML = `The computer got three Os in a row. You lose!`;
   }
 }
 

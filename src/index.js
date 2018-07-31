@@ -88,6 +88,7 @@ startButton.addEventListener("click", function() {
   gameBoard = document.querySelector(".game-board");
   gameBoard.style.display = "block";
   currentBoard = new Board(currentUser);
+
   gameBoard.addEventListener("click", function(event) {
     results.innerHTML = "";
     square = event.target.id;
@@ -101,32 +102,26 @@ startButton.addEventListener("click", function() {
 function fetchRandomWord() {
   fetch(`http://localhost:3000/api/v1/words`)
     .then(response => response.json())
-    .then(function(word) {
-      console.log("fetchRandomWord", word);
-      displayWord(word);
-    });
+    .then(word => displayWord(word));
 }
+
+
 
 function displayWord(word) {
-  console.log("displayWord", word);
-  let wordDisplay = document.getElementById("word-display");
+  let wordDisplay = document.getElementById("word");
   wordDisplay.innerHTML = `${word.label}`;
-  grabGuess(word);
+
 }
 
-function grabGuess(word) {
-  let guessForm = document.getElementById("guess-form");
-  guessForm.addEventListener("submit", function(event) {
-    event.preventDefault();
+  let guessButton = document.getElementById("guess-button");
+  guessButton.addEventListener("click", function(event) {
     let guessValue = document.getElementById("guess").value.toLowerCase();
+
     fetchSimilarWords(word, guessValue);
-    var new_element = guessForm.cloneNode(true);
-    guessForm.parentNode.replaceChild(new_element, guessForm);
   });
 }
 
 function fetchSimilarWords(word, guessValue) {
-  console.log("fetchSimilarWords", word, guessValue);
   fetch(`http://api.datamuse.com/words?ml=${word.label}`)
     .then(response => response.json())
     .then(jsonData => {
@@ -134,6 +129,8 @@ function fetchSimilarWords(word, guessValue) {
       console.log(jsonData);
     });
 }
+
+
 
 function checkForMatches(jsonData, guessValue) {
   console.log("checkForMatches", square);

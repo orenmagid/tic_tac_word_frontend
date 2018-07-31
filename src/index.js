@@ -31,6 +31,7 @@ function getUser(username) {
 }
 
 function checkForExistingUser(users, username) {
+  console.log(users);
   users.forEach(function(user) {
     if (user.username === username) {
       currentUser = new User(user.username, user.id);
@@ -315,6 +316,7 @@ function postBoard() {
     user_id: currentBoard.user_id,
     status: currentBoard.status,
     score: currentBoard.score,
+    play_date: new Date(),
     r1c1: currentBoard.r1c1,
     r1c2: currentBoard.r1c2,
     r1c3: currentBoard.r1c3,

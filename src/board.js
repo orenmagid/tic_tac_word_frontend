@@ -3,6 +3,7 @@ class Board {
     this.user_id = user.id;
     this.status = "active";
     this.score = 0;
+    this.play_date = new Date();
     squares: {
       this.r1c1 = "";
       this.r1c2 = "";

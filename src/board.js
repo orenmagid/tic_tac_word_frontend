@@ -1,7 +1,7 @@
 class Board {
   constructor(user) {
     this.user_id = user.id;
-    this.status = "active";
+    this.status = "New";
     this.score = 0;
     this.play_date = new Date();
     squares: {

@@ -23,6 +23,7 @@ let userInfoDiv = document.getElementById("user-info");
 let logOutButton;
 
 function getUser(username) {
+  console.log("getUser");
   fetch(`http://localhost:3000/api/v1/users`)
     .then(response => response.json())
     .then(function(users) {
@@ -31,7 +32,7 @@ function getUser(username) {
 }
 
 function checkForExistingUser(users, username) {
-  console.log(users);
+  console.log("checkForExistingUser");
   users.forEach(function(user) {
     if (user.username === username) {
       currentUser = new User(user.username, user.id);
@@ -39,13 +40,14 @@ function checkForExistingUser(users, username) {
       displayUser();
     }
   });
-  if (currentUser === undefined) {
+  if (currentUser === undefined || currentUser === null) {
     userBoards = null;
     postUser(username);
   }
 }
 
 function postUser(username) {
+  console.log("postUser");
   let data = { username: username };
 
   fetch(`http://localhost:3000/api/v1/users`, {
@@ -63,6 +65,7 @@ function postUser(username) {
 }
 
 function displayUser() {
+  console.log("displayUser");
   let userInfoH3 = document.getElementById("username-display");
   userInfoH3.innerHTML = `Currently logged in as: ${currentUser.username}`;
 
@@ -103,7 +106,7 @@ startButton.addEventListener("click", function() {
   gameSaveButton.innerText = "Save Current Game";
   currentGameDiv.appendChild(gameSaveButton);
   gameSaveButton.addEventListener("click", function() {
-    currentBoard.status = "In progress";
+    currentBoard.status = "In Progress";
     postBoard();
     results.innerHTML = "";
     score.innerHTML = "";
@@ -131,13 +134,15 @@ startButton.addEventListener("click", function() {
 });
 
 function displayBoards() {
+  console.log("displayBoards");
   savedGamesList.innerHTML = "";
   if (userBoards !== null) {
     document.getElementById("saved-games-heading").style.display = "block";
     userBoards.forEach(function(board) {
       let savedGameLi = document.createElement("li");
-      // savedGameLi.style.display = "inline";
-      savedGameLi.innerHTML = `<a href="#">${board.status}, ${board.score}</a>`;
+      savedGameLi.innerHTML = `<a href="#">Date: ${
+        board.play_date
+      } -- Status: ${board.status} -- Score: ${board.score}</a>`;
       savedGamesList.appendChild(savedGameLi);
     });
   }
@@ -172,7 +177,7 @@ function grabGuess(word) {
 
 function fetchSimilarWords(word, guessValue) {
   console.log("fetchSimilarWords", word, guessValue);
-  fetch(`http://api.datamuse.com/words?ml=${word.label}`)
+  fetch(`http://api.datamuse.com/words?ml=${word.label}&max=250`)
     .then(response => response.json())
     .then(jsonData => {
       checkForMatches(jsonData, guessValue);
@@ -302,11 +307,12 @@ function declareWinner(winningSymbol) {
   results.innerHTML = "";
   if (winningSymbol === "X") {
     gameResults.innerHTML = `You got three Xs in a row. You win!`;
+    currentBoard.status = "Won";
   }
   if (winningSymbol === "O") {
     gameResults.innerHTML = `The computer got three Os in a row. You lose!`;
+    currentBoard.status = "Lost";
   }
-  currentBoard.status = "completed";
   postBoard();
   gameSaveButton.style.display = "none";
 }
@@ -316,7 +322,7 @@ function postBoard() {
     user_id: currentBoard.user_id,
     status: currentBoard.status,
     score: currentBoard.score,
-    play_date: new Date(),
+    play_date: new Date().toLocaleDateString("en-US"),
     r1c1: currentBoard.r1c1,
     r1c2: currentBoard.r1c2,
     r1c3: currentBoard.r1c3,
@@ -337,7 +343,11 @@ function postBoard() {
   })
     .then(response => response.json())
     .then(function(board) {
-      console.log(board);
+      let savedGameLi = document.createElement("li");
+      savedGameLi.innerHTML = `<a href="#">Date: ${
+        board.play_date
+      } -- Status: ${board.status} -- Score: ${board.score}</a>`;
+      savedGamesList.appendChild(savedGameLi);
     });
 }
 

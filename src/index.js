@@ -21,6 +21,7 @@ let savedGamesList = document.getElementById("saved-games-list");
 let userBoards;
 let userInfoDiv = document.getElementById("user-info");
 let logOutButton;
+let currentGameDiv = document.getElementById("current-game-info");
 
 function getUser(username) {
   console.log("getUser");
@@ -101,11 +102,11 @@ function displayUser() {
 startButton = document.getElementById("start-button");
 startButton.addEventListener("click", function() {
   clearBoard();
-  let currentGameDiv = document.getElementById("current-game-info");
 
   gameSaveButton.innerText = "Save Current Game";
   currentGameDiv.appendChild(gameSaveButton);
   gameSaveButton.addEventListener("click", function() {
+    gameInformation.style.display = "none";
     currentBoard.status = "In Progress";
     postBoard();
     results.innerHTML = "";
@@ -139,11 +140,20 @@ function displayBoards() {
   if (userBoards !== null) {
     document.getElementById("saved-games-heading").style.display = "block";
     userBoards.forEach(function(board) {
+      console.log(board);
       let savedGameLi = document.createElement("li");
-      savedGameLi.innerHTML = `<a href="#">Date: ${
-        board.play_date
-      } -- Status: ${board.status} -- Score: ${board.score}</a>`;
-      savedGamesList.appendChild(savedGameLi);
+      if (board.status === "In Progress") {
+        savedGameLi.innerHTML = `<a href="#">Date: ${
+          board.play_date
+        } -- Status: ${board.status} -- Score: ${board.score}</a>`;
+        savedGamesList.appendChild(savedGameLi);
+        savedGameLi.addEventListener("click", () => loadSavedBoard(board));
+      } else {
+        savedGameLi.innerHTML = `Date: ${board.play_date} -- Status: ${
+          board.status
+        } -- Score: ${board.score}`;
+        savedGamesList.appendChild(savedGameLi);
+      }
     });
   }
 }
@@ -170,8 +180,8 @@ function grabGuess(word) {
     event.preventDefault();
     let guessValue = document.getElementById("guess").value.toLowerCase();
     fetchSimilarWords(word, guessValue);
-    var new_element = guessForm.cloneNode(true);
-    guessForm.parentNode.replaceChild(new_element, guessForm);
+    let newGuessForm = guessForm.cloneNode(true);
+    guessForm.parentNode.replaceChild(newGuessForm, guessForm);
   });
 }
 
@@ -361,4 +371,58 @@ function clearBoard() {
   document.getElementById("r3c1").innerHTML = "";
   document.getElementById("r3c2").innerHTML = "";
   document.getElementById("r3c3").innerHTML = "";
+}
+
+function loadSavedBoard(board) {
+  startButton.style.display = "none";
+  gameSaveButton.innerText = "Save Current Game";
+  currentGameDiv.appendChild(gameSaveButton);
+  gameSaveButton.addEventListener("click", function() {
+    gameInformation.style.display = "none";
+    currentBoard.status = "In Progress";
+    postBoard();
+    results.innerHTML = "";
+    score.innerHTML = "";
+    gameSaveButton.style.display = "none";
+    gameBoard.style.display = "none";
+    let userInfoDiv = document.getElementById("user-info");
+    userInfoDiv.removeChild(logOutButton);
+    getUser(currentUser.username);
+  });
+  gameBoard.style.display = "block";
+  gameSaveButton.style.display = "block";
+  console.log("loadSavedBoard");
+  currentBoard = new Board(currentUser);
+
+  currentBoard.status = board.status;
+  currentBoard.score = board.score;
+
+  currentBoard.r1c1 = board.r1c1;
+  currentBoard.r1c2 = board.r1c2;
+  currentBoard.r1c3 = board.r1c3;
+  currentBoard.r2c1 = board.r2c1;
+  currentBoard.r2c2 = board.r2c2;
+  currentBoard.r2c3 = board.r2c3;
+  currentBoard.r3c1 = board.r3c1;
+  currentBoard.r3c2 = board.r3c2;
+  currentBoard.r3c3 = board.r3c3;
+
+  document.getElementById("r1c1").innerHTML = board.r1c1;
+  document.getElementById("r1c2").innerHTML = board.r1c2;
+  document.getElementById("r1c3").innerHTML = board.r1c3;
+  document.getElementById("r2c1").innerHTML = board.r2c1;
+  document.getElementById("r2c2").innerHTML = board.r2c2;
+  document.getElementById("r2c3").innerHTML = board.r2c3;
+  document.getElementById("r3c1").innerHTML = board.r3c1;
+  document.getElementById("r3c2").innerHTML = board.r3c2;
+  document.getElementById("r3c3").innerHTML = board.r3c3;
+
+  score.innerHTML = `Current Score: ${currentBoard.score}`;
+  gameBoard.addEventListener("click", function(event) {
+    results.innerHTML = "";
+    square = event.target.id;
+    fetchRandomWord();
+
+    gameInformation.style.display = "block";
+  });
 }

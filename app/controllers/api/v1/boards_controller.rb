@@ -1,9 +1,10 @@
 class Api::V1::BoardsController < ApplicationController
 
-  before_action :find_board, only: [:show]
+  before_action :find_board, only: [:show, :update]
 
   def index
-    render json: Board.all
+    @boards = Board.all
+    render json: @boards, include: ['user']
   end
 
   def show
@@ -19,6 +20,17 @@ class Api::V1::BoardsController < ApplicationController
     else
       render json: { errors: @board.errors.full_messages }, status: :unprocessible_entity
     end
+  end
+
+  def update
+    @board.update(board_params)
+    if @board.save
+      render json: @board, status: :accepted
+    else
+      render json: { errors: @board.errors.full_messages }, status: :unprocessible_entity
+    end
+
+
   end
 
   private

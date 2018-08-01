@@ -1,5 +1,6 @@
 class Board {
   constructor(user) {
+    this.id = null;
     this.user_id = user.id;
     this.status = "New";
     this.score = 0;

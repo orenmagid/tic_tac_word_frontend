@@ -37,7 +37,7 @@
 }
 .game-board-space.selected-space,
 .game-board-space.selected-space:hover {
-  background-color: #333333;
+  background-color: #627687;
   color: white;
   border-color: #262525;
 }
@@ -50,4 +50,21 @@
 
 #start-button {
   display: none;
+}
+
+.flexcontainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexcell {
+  flex: 1;
+}
+
+.center {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
 }

@@ -1,13 +1,3 @@
-document.getElementById("user-form").addEventListener("submit", event => {
-  event.preventDefault();
-  userInfoDiv.style.display = "block";
-
-  let username = document.getElementById("username-input").value;
-  getUser(username);
-  document.getElementById("username-input").value = ``;
-  gameSaveButton.addEventListener("click", () => saveGame());
-});
-
 let currentUser;
 let gameBoard = document.querySelector(".game-board");
 let currentBoard;
@@ -24,7 +14,60 @@ let userInfoDiv = document.getElementById("user-info");
 let logOutButton;
 let currentGameDiv = document.getElementById("current-game-info");
 let savedGamesHeading = document.getElementById("saved-games-heading");
+let loginForm = document.getElementById("user-form");
+let userInfoH3 = document.getElementById("username-display");
+let leaderBoardList = document.getElementById("leader-board-list");
 
+// Set up event listener on submit button of login form
+loginForm.addEventListener("submit", event => {
+  event.preventDefault();
+  userInfoDiv.style.display = "block";
+
+  let username = document.getElementById("username-input").value;
+  getUser(username);
+  getBoards();
+  document.getElementById("username-input").value = ``;
+  gameSaveButton.addEventListener("click", () => saveGame());
+  gameSaveButton.style.display = "none";
+  console.log("Added Event Listener to Save Game Button.");
+});
+
+// Fetches all boards from backend
+function getBoards() {
+  console.log("getBoards");
+  fetch(`http://localhost:3000/api/v1/boards`)
+    .then(response => response.json())
+    .then(boards => reduceToTopTenBoards(boards));
+}
+
+function reduceToTopTenBoards(boards) {
+  console.log(boards);
+  let winLoseDrawBoards = boards.filter(function(board) {
+    return (
+      board.status === "Won" ||
+      board.status === "Lost" ||
+      board.status === "Draw"
+    );
+  });
+  let sortedWinLoseDrawBoard = winLoseDrawBoards
+    .sort(function(a, b) {
+      return a.score - b.score;
+    })
+    .reverse();
+  displayLeaderBoards(sortedWinLoseDrawBoard);
+}
+
+function displayLeaderBoards(sortedWinLoseDrawBoard) {
+  sortedWinLoseDrawBoard.forEach(function(board) {
+    let leaderBoardLi = document.createElement("li");
+    leaderBoardLi.innerHTML = `${board.user.username} -- Score: ${
+      board.score
+    } -- Status: ${board.status} -- Date: ${board.play_date}`;
+    leaderBoardList.appendChild(leaderBoardLi);
+  });
+}
+
+// Fetches all users from backend
 function getUser(username) {
   console.log("getUser");
   fetch(`http://localhost:3000/api/v1/users`)
@@ -34,21 +77,28 @@ function getUser(username) {
     });
 }
 
+// checks to see if username given matches any of users fetched from backend
 function checkForExistingUser(users, username) {
   console.log("checkForExistingUser");
   users.forEach(function(user) {
+    // if username already exists in backend,
+    // create JS user object and set equal to currentUser
+    // call displayUser
     if (user.username === username) {
       currentUser = new User(user.username, user.id);
       userBoards = user.boards;
       displayUser();
     }
   });
+  // if currentUser doesn't exist, call postUser
   if (currentUser === undefined || currentUser === null) {
     userBoards = null;
     postUser(username);
   }
 }
 
+// make fetch request to create new user on backend
+// then calls displayUser
 function postUser(username) {
   console.log("postUser");
   let data = { username: username };
@@ -67,64 +117,76 @@ function postUser(username) {
     });
 }
 
+// display username, welcome message
+// creates logout button
+// sets events listener on start button, so user can start game
 function displayUser() {
   console.log("displayUser");
-  let userInfoH3 = document.getElementById("username-display");
   userInfoH3.innerHTML = `Currently logged in as: ${currentUser.username}`;
 
   logOutButton = document.createElement("button");
   logOutButton.innerHTML = "Log Out";
   userInfoDiv.appendChild(logOutButton);
 
-  let loginForm = document.getElementById("user-form");
   loginForm.style.display = "none";
-
   startButton.style.display = "block";
 
-  // startButton = document.getElementById("start-button");
-  startButton.addEventListener("click", function() {
-    clearBoard();
-    gameSaveButton.style.display = "block";
-    console.log("Added Event Listener to Save Game Button.");
+  startButton.addEventListener("click", () => startNewGame());
 
-    startButton.style.display = "none";
-    gameResults.innerHTML = ``;
-    gameBoard = document.querySelector(".game-board");
-    gameBoard.style.display = "block";
-    currentBoard = new Board(currentUser);
-    score.innerHTML = `Current Score: ${currentBoard.score}`;
-    gameBoard.addEventListener("click", function(event) {
-      results.innerHTML = "";
-      square = event.target.id;
-      fetchRandomWord();
-
-      gameInformation.style.display = "block";
-      currentBoard[square] = "clicked";
-    });
-  });
-
-  logOutButton.addEventListener("click", function() {
-    currentUser = null;
-    userInfoDiv.style.display = "none";
-    userInfoH3.innerHTML = ``;
-    userInfoDiv.removeChild(logOutButton);
-    loginForm.style.display = "block";
-    startButton.style.display = "none";
-    clearBoard();
-    gameInformation.style.display = "none";
-    gameBoard.style.display = "none";
-    // // gameSaveButton = document.createElement("button");
-    // gameSaveButton.style.display = "none";
-    gameResults.innerHTML = ``;
-    results.innerHTML = ``;
-    score.innerHTML = "";
-    savedGamesList.innerHTML = "";
-  });
+  logOutButton.addEventListener("click", () => logOut());
   displayBoards();
+}
+
+// starts new game
+function startNewGame() {
+  clearBoard();
+
+  startButton.style.display = "none";
+  gameResults.innerHTML = ``;
+  gameBoard = document.querySelector(".game-board");
+  gameBoard.style.display = "block";
+  currentBoard = new Board(currentUser);
+  score.innerHTML = `Current Score: ${currentBoard.score}`;
+  console.log("Add event listener to gameBoard");
+  gameBoard.addEventListener("click", squareClicked);
+}
+
+// when square has been clicked, sets off chain of events
+// by calling fetchRandomWord
+function squareClicked(event) {
+  event.target.classList.add("selected-space");
+  if (gameSaveButton.style.display === "none") {
+    gameSaveButton.style.display = "block";
+  }
+  results.innerHTML = "";
+  square = event.target.id;
+  fetchRandomWord();
+
+  gameInformation.style.display = "block";
+  currentBoard[square] = "clicked";
+}
+
+// logs user out
+function logOut() {
+  currentUser = null;
+  userInfoDiv.style.display = "none";
+  userInfoH3.innerHTML = ``;
+  userInfoDiv.removeChild(logOutButton);
+  loginForm.style.display = "block";
+  startButton.style.display = "none";
+  clearBoard();
+  gameInformation.style.display = "none";
+  gameBoard.style.display = "none";
+
+  gameResults.innerHTML = ``;
+  results.innerHTML = ``;
+  score.innerHTML = "";
+  savedGamesList.innerHTML = "";
 }
 
 function saveGame() {
   console.log("Inside 'saveGame' function");
+  gameBoard.removeEventListener("click", squareClicked);
   startButton.style.display = "block";
   gameInformation.style.display = "none";
   if (currentBoard.status === "New") {
@@ -137,9 +199,6 @@ function saveGame() {
   score.innerHTML = "";
   gameSaveButton.style.display = "none";
   gameBoard.style.display = "none";
-  // let userInfoDiv = document.getElementById("user-info");
-  // userInfoDiv.removeChild(logOutButton);
-  // getUser(currentUser.username);
 }
 
 function displayBoards() {
@@ -162,6 +221,7 @@ function createAndAppendSavedGameLi(board) {
     savedGameLi.innerHTML = `<a href="#">Date: ${board.play_date} -- Status: ${
       board.status
     } -- Score: ${board.score}</a>`;
+    savedGameLi.id = `board-${board.id}`;
     savedGamesList.appendChild(savedGameLi);
     savedGameLi.addEventListener("click", () => loadSavedBoard(board));
   } else {
@@ -201,19 +261,6 @@ function fetchRandomWord() {
         patchWord(word);
       }
     });
-
-  //   function(word) {
-  //   let userObjForMatch = {
-  //     id: currentUser.id,
-  //     username: currentUser.username
-  //   };
-  //   if (word.users.contains(userObjForMatch)) {
-  //     fetchRandomWord();
-  //   } else {
-  //     displayWord(word);
-  //     patchWord(word);
-  //   }
-  // }
 }
 
 function patchWord(word) {
@@ -305,6 +352,7 @@ function displayWin(returnedWord, jsonData) {
 }
 
 function checkForWinner() {
+  console.log("Inside checkforWinner function");
   // horizontal non-null match
   if (
     currentBoard.r1c1 !== "" &&
@@ -363,7 +411,7 @@ function checkForWinner() {
     currentBoard.r1c1 === currentBoard.r2c2 &&
     currentBoard.r2c2 === currentBoard.r3c3
   ) {
-    declareWinner(currentBoard.r1c);
+    declareWinner(currentBoard.r1c1);
     return;
   }
 
@@ -376,9 +424,26 @@ function checkForWinner() {
     declareWinner(currentBoard.r3c1);
     return;
   }
+
+  // ends in a draw/tie
+  if (
+    (currentBoard.r1c1 === "X" || currentBoard.r1c1 === "O") &&
+    (currentBoard.r1c2 === "X" || currentBoard.r1c2 === "O") &&
+    (currentBoard.r1c3 === "X" || currentBoard.r1c3 === "O") &&
+    (currentBoard.r2c1 === "X" || currentBoard.r2c1 === "O") &&
+    (currentBoard.r2c2 === "X" || currentBoard.r2c2 === "O") &&
+    (currentBoard.r2c3 === "X" || currentBoard.r2c3 === "O") &&
+    (currentBoard.r3c1 === "X" || currentBoard.r3c1 === "O") &&
+    (currentBoard.r3c2 === "X" || currentBoard.r3c2 === "O") &&
+    (currentBoard.r3c3 === "X" || currentBoard.r3c3 === "O")
+  ) {
+    declareDraw();
+    return;
+  }
 }
 
 function declareWinner(winningSymbol) {
+  gameBoard.removeEventListener("click", squareClicked);
   startButton.style.display = "block";
   results.innerHTML = "";
   if (winningSymbol === "X") {
@@ -389,7 +454,21 @@ function declareWinner(winningSymbol) {
     gameResults.innerHTML = `The computer got three Os in a row. You lose!`;
     currentBoard.status = "Lost";
   }
-  if (currentBoard.status === "New") {
+  if (currentBoard.id === null) {
+    postBoard();
+  } else {
+    patchBoard();
+  }
+  gameSaveButton.style.display = "none";
+}
+
+function declareDraw() {
+  gameBoard.removeEventListener("click", squareClicked);
+  startButton.style.display = "block";
+  results.innerHTML = "";
+  gameResults.innerHTML = `Game Over! No winner here!`;
+  currentBoard.status = "Draw";
+  if (currentBoard.id === null) {
     postBoard();
   } else {
     patchBoard();
@@ -424,6 +503,7 @@ function postBoard() {
   })
     .then(response => response.json())
     .then(function(board) {
+      console.log(board);
       createAndAppendSavedGameLi(board);
     });
 }
@@ -455,6 +535,9 @@ function patchBoard() {
     .then(response => response.json())
     .then(function(board) {
       console.log("Just ran 'patchBoard' function", board);
+      let liToDelete = document.getElementById(`board-${board.id}`);
+      liToDelete.parentNode.removeChild(liToDelete);
+      createAndAppendSavedGameLi(board);
     });
 }
 
@@ -475,23 +558,14 @@ function loadSavedBoard(board) {
   let startButton = document.getElementById("start-button");
   startButton.style.display = "none";
 
+  gameResults.innerHTML = "";
+
   gameBoard.style.display = "block";
   gameSaveButton.style.display = "block";
 
-  // gameSaveButton.addEventListener("click", function() {
-  //   gameInformation.style.display = "none";
-  //   currentBoard.status = "In Progress";
-  //   postBoard();
-  //   results.innerHTML = "";
-  //   score.innerHTML = "";
-  //   gameSaveButton.style.display = "none";
-  //   gameBoard.style.display = "none";
-  // let userInfoDiv = document.getElementById("user-info");
-  // userInfoDiv.removeChild(logOutButton);
-  // getUser(currentUser.username);
-  // }
-
   currentBoard = new Board(currentUser);
+
+  currentBoard.id = board.id;
 
   currentBoard.status = board.status;
   currentBoard.score = board.score;
@@ -526,11 +600,5 @@ function loadSavedBoard(board) {
     board.r3c3 === "clicked" ? "" : board.r3c3;
 
   score.innerHTML = `Current Score: ${currentBoard.score}`;
-  gameBoard.addEventListener("click", function(event) {
-    results.innerHTML = "";
-    square = event.target.id;
-    fetchRandomWord();
-
-    gameInformation.style.display = "block";
-  });
+  gameBoard.addEventListener("click", squareClicked);
 }

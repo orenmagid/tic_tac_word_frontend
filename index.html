@@ -19,25 +19,27 @@
 
           <ul id="saved-games-list"></ul>
         </div>
-        <div id="current-game-info">
+
+
+      </div>
+
+      <div class="flexcell center">
+        <div id="current-game-info center">
           <p id=current-game-score></p>
-          <button style="display: none;" id="save-game-button">Save Current Game</button>
+            <button style="display: none;" id="save-game-button">Save Current Game</button>
+            <button type="button" id="start-button" name="start-button">Start New Game</button>
         </div>
       </div>
-      <div class="flexcell">
-
-
-
-      </div>
-      <div class="flexcell center">
-        <h4 class="right">Top Scoring Games</h4>
+      <div id="leader-board-div" style="display: none;" class="flexcell center">
+        <h4 id="leader-board-header" class="right">Top Scoring Games</h4>
         <ul id="leader-board-list"></ul>
 
 
       </div>
     </div>
+
     <div id="game-container">
-      <button type="button" id="start-button" name="start-button">Start New Game</button>
+
 
       <div class="game-board hide">
         <div class="game-board-row">
@@ -56,23 +58,43 @@
           <div class="game-board-space" id="r3c3" data-space="3,3"></div>
         </div>
     </div>
+
+  </div>
+
+<div class="flexcontainer margin-top">
+
+  <div class="flexcell center">
+
+
+  </div>
+
+  <div class="flexcell center">
       <div class="hide" id="game-information">
         <h2 id="word-display"></h2>
         <form id="guess-form">
           <input id="guess" type="text" placeholder="Type Your Guess Here">
           <input type="submit" id="guess-button" name="guess-button" value="Submit Your Guess">
         </form>
-
       </div>
-
       <div>
         <p id="word-results"></p>
-      </div>
-      <div>
         <h2 id="game-results"></h2>
       </div>
+
   </div>
+
+
+
+
+
+    <div class="flexcell center">
+
+
     </div>
+
+  </div>
+
+
 
   <script src="src/index.js"> </script>
   <script src="src/user.js"> </script>

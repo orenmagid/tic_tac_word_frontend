@@ -17,11 +17,14 @@ let savedGamesHeading = document.getElementById("saved-games-heading");
 let loginForm = document.getElementById("user-form");
 let userInfoH3 = document.getElementById("username-display");
 let leaderBoardList = document.getElementById("leader-board-list");
+let leaderBoardHeader = document.getElementById("leader-board-header");
+let leaderBoardDiv = document.getElementById("leader-board-div");
 
 // Set up event listener on submit button of login form
 loginForm.addEventListener("submit", event => {
   event.preventDefault();
   userInfoDiv.style.display = "block";
+  leaderBoardDiv.style.display = "block";
 
   let username = document.getElementById("username-input").value;
   getUser(username);
@@ -141,6 +144,16 @@ function displayUser() {
 function startNewGame() {
   clearBoard();
 
+  document.getElementById("r1c1").classList.remove("selected-space");
+  document.getElementById("r1c2").classList.remove("selected-space");
+  document.getElementById("r1c3").classList.remove("selected-space");
+  document.getElementById("r2c1").classList.remove("selected-space");
+  document.getElementById("r2c2").classList.remove("selected-space");
+  document.getElementById("r2c3").classList.remove("selected-space");
+  document.getElementById("r3c1").classList.remove("selected-space");
+  document.getElementById("r3c2").classList.remove("selected-space");
+  document.getElementById("r3c3").classList.remove("selected-space");
+
   startButton.style.display = "none";
   gameResults.innerHTML = ``;
   gameBoard = document.querySelector(".game-board");
@@ -182,6 +195,7 @@ function logOut() {
   results.innerHTML = ``;
   score.innerHTML = "";
   savedGamesList.innerHTML = "";
+  leaderBoardDiv.style.display = "none";
 }
 
 function saveGame() {
@@ -375,7 +389,7 @@ function checkForWinner() {
     currentBoard.r3c1 === currentBoard.r3c2 &&
     currentBoard.r3c2 === currentBoard.r3c3
   ) {
-    declareWinner(currentBoard.r3c);
+    declareWinner(currentBoard.r3c1);
     return;
   }
 
@@ -443,6 +457,7 @@ function checkForWinner() {
 }
 
 function declareWinner(winningSymbol) {
+  console.log("Inside declare winner function");
   gameBoard.removeEventListener("click", squareClicked);
   startButton.style.display = "block";
   results.innerHTML = "";

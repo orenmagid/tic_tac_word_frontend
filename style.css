@@ -63,8 +63,17 @@
 
 .center {
   text-align: center;
+  align-content: center;
 }
 
 ul {
   list-style: none;
+}
+
+button {
+  margin: 0 auto;
+}
+
+.margin-top {
+  margin-top: 50px;
 }

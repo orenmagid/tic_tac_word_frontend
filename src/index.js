@@ -16,7 +16,7 @@ let results = document.getElementById("word-results");
 let gameResults = document.getElementById("game-results");
 let square;
 let startButton;
-let gameSaveButton = document.createElement("button");
+let gameSaveButton;
 let savedGamesList = document.getElementById("saved-games-list");
 let userBoards;
 let userInfoDiv = document.getElementById("user-info");
@@ -102,7 +102,7 @@ function displayUser() {
 startButton = document.getElementById("start-button");
 startButton.addEventListener("click", function() {
   clearBoard();
-
+  let gameSaveButton = document.createElement("button");
   gameSaveButton.innerText = "Save Current Game";
   currentGameDiv.appendChild(gameSaveButton);
   gameSaveButton.addEventListener("click", function() {
@@ -231,7 +231,9 @@ function grabGuess(word) {
     let guessValue = document.getElementById("guess").value.toLowerCase();
     fetchSimilarWords(word, guessValue);
     let newGuessForm = guessForm.cloneNode(true);
-    guessForm.parentNode.replaceChild(newGuessForm, guessForm);
+    if (guessForm.parentNode !== null) {
+      guessForm.parentNode.replaceChild(newGuessForm, guessForm);
+    }
   });
 }
 
@@ -404,9 +406,9 @@ function postBoard() {
     .then(response => response.json())
     .then(function(board) {
       let savedGameLi = document.createElement("li");
-      savedGameLi.innerHTML = `<a href="#">Date: ${
-        board.play_date
-      } -- Status: ${board.status} -- Score: ${board.score}</a>`;
+      savedGameLi.innerHTML = `Date: ${board.play_date} -- Status: ${
+        board.status
+      } -- Score: ${board.score}`;
       savedGamesList.appendChild(savedGameLi);
     });
 }
@@ -425,6 +427,7 @@ function clearBoard() {
 
 function loadSavedBoard(board) {
   startButton.style.display = "none";
+  let gameSaveButton = document.createElement("button");
   gameSaveButton.innerText = "Save Current Game";
   currentGameDiv.appendChild(gameSaveButton);
   gameSaveButton.addEventListener("click", function() {

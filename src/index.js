@@ -460,15 +460,24 @@ function loadSavedBoard(board) {
   currentBoard.r3c2 = board.r3c2;
   currentBoard.r3c3 = board.r3c3;
 
-  document.getElementById("r1c1").innerHTML = board.r1c1;
-  document.getElementById("r1c2").innerHTML = board.r1c2;
-  document.getElementById("r1c3").innerHTML = board.r1c3;
-  document.getElementById("r2c1").innerHTML = board.r2c1;
-  document.getElementById("r2c2").innerHTML = board.r2c2;
-  document.getElementById("r2c3").innerHTML = board.r2c3;
-  document.getElementById("r3c1").innerHTML = board.r3c1;
-  document.getElementById("r3c2").innerHTML = board.r3c2;
-  document.getElementById("r3c3").innerHTML = board.r3c3;
+  document.getElementById("r1c1").innerHTML =
+    board.r1c1 === "clicked" ? "" : board.r1c1;
+  document.getElementById("r1c2").innerHTML =
+    board.r1c2 === "clicked" ? "" : board.r1c2;
+  document.getElementById("r1c3").innerHTML =
+    board.r1c3 === "clicked" ? "" : board.r1c3;
+  document.getElementById("r2c1").innerHTML =
+    board.r2c1 === "clicked" ? "" : board.r2c1;
+  document.getElementById("r2c2").innerHTML =
+    board.r2c2 === "clicked" ? "" : board.r2c2;
+  document.getElementById("r2c3").innerHTML =
+    board.r2c3 === "clicked" ? "" : board.r2c3;
+  document.getElementById("r3c1").innerHTML =
+    board.r3c1 === "clicked" ? "" : board.r3c1;
+  document.getElementById("r3c2").innerHTML =
+    board.r3c2 === "clicked" ? "" : board.r3c2;
+  document.getElementById("r3c3").innerHTML =
+    board.r3c3 === "clicked" ? "" : board.r3c3;
 
   score.innerHTML = `Current Score: ${currentBoard.score}`;
   gameBoard.addEventListener("click", function(event) {

@@ -163,9 +163,43 @@ function fetchRandomWord() {
     .then(response => response.json())
     .then(function(word) {
       console.log("fetchRandomWord", word);
-      displayWord(word);
-      patchWord(word);
+      console.log(word.users);
+      if (word.users.length !== 0) {
+        let i = 0;
+        word.users.forEach(function(user) {
+          if (
+            user.id === currentUser.id &&
+            user.username === currentUser.username
+          ) {
+            console.log(word, "Already Played!!!!!");
+            fetchRandomWord();
+            return;
+          } else {
+            i++;
+          }
+
+          displayWord(word);
+          patchWord(word);
+          return;
+        });
+      } else {
+        displayWord(word);
+        patchWord(word);
+      }
     });
+
+  //   function(word) {
+  //   let userObjForMatch = {
+  //     id: currentUser.id,
+  //     username: currentUser.username
+  //   };
+  //   if (word.users.contains(userObjForMatch)) {
+  //     fetchRandomWord();
+  //   } else {
+  //     displayWord(word);
+  //     patchWord(word);
+  //   }
+  // }
 }
 
 function patchWord(word) {

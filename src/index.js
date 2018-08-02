@@ -377,7 +377,7 @@ function checkForMatches(jsonData, guessValue) {
 }
 
 function displayWinningWords(jsonData) {
-  winningWordsHeading.innerHTML = "Winning Words";
+  winningWordsHeading.innerHTML = "Top Ten High Scoring Words";
 
   if (jsonData.length < 10) {
     for (var i = 0; i < jsonData.length; i++) {

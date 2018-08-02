@@ -349,12 +349,12 @@ function fetchSimilarWords(word, guessValue) {
   fetch(`https://api.datamuse.com/words?ml=${word.label}&max=500`)
     .then(response => response.json())
     .then(jsonData => {
-      checkForMatches(jsonData, guessValue);
+      checkForMatches(jsonData, guessValue, word);
       console.log(jsonData);
     });
 }
 
-function checkForMatches(jsonData, guessValue) {
+function checkForMatches(jsonData, guessValue, word) {
   console.log("checkForMatches", square);
   let simpleReturnedWordArray = jsonData.map(function(returnedWord) {
     return returnedWord.word;
@@ -362,7 +362,7 @@ function checkForMatches(jsonData, guessValue) {
 
   if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
     displayLose();
-    displayWinningWords(jsonData, guessValue);
+    displayWinningWords(jsonData, word);
   } else {
     jsonData.forEach(function(returnedWord) {
       if (guessValue == returnedWord.word) {
@@ -376,9 +376,9 @@ function checkForMatches(jsonData, guessValue) {
   guessInput.value = "";
 }
 
-function displayWinningWords(jsonData, guessValue) {
+function displayWinningWords(jsonData, word) {
   winningWordsHeading.innerHTML = `Top Ten High Scoring Words for "${toTitleCase(
-    guessValue
+    word
   )}"`;
 
   if (jsonData.length < 10) {

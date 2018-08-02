@@ -353,6 +353,7 @@ function checkForMatches(jsonData, guessValue) {
 
   if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
     displayLose();
+    displayWinningWords(jsonData);
   } else {
     jsonData.forEach(function(returnedWord) {
       if (guessValue == returnedWord.word) {
@@ -364,6 +365,12 @@ function checkForMatches(jsonData, guessValue) {
   gameInformation.style.display = "none";
   let guessInput = document.getElementById("guess");
   guessInput.value = "";
+}
+
+function displayWinningWords(jsonData) {
+  for (var i = 0; i < 10; i++) {
+    console.log(jsonData[i].word, jsonData[i].score);
+  }
 }
 
 function displayLose() {

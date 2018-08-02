@@ -20,6 +20,7 @@ let leaderBoardList = document.getElementById("leader-board-list");
 let leaderBoardHeader = document.getElementById("leader-board-header");
 let leaderBoardDiv = document.getElementById("leader-board-div");
 let winningWordsList = document.getElementById("winning-words-list");
+let winningWordsDiv = document.getElementById("winning-words-div");
 
 // Set up event listener on submit button of login form
 loginForm.addEventListener("submit", event => {
@@ -369,13 +370,15 @@ function checkForMatches(jsonData, guessValue) {
 }
 
 function displayWinningWords(jsonData) {
+  let winningWordsHeading = document.createElement("h3");
+  winningWordsHeading.innerHTML = "Winning Words";
+  winningWordsDiv.appendChild(winningWordsHeading);
   for (var i = 0; i < 10; i++) {
-    let winningWordsHeading = document.createElement("h3");
-    winningWordsHeading.innerHTML = "Winning Words";
-    winningWordsList.appendChild(winningWordsHeading);
     let winningWordLi = document.createElement("li");
     winningWordsList.appendChild(winningWordLi);
-    winningWordLi.innerHTML = `Word: ${jsonData[i].word}, Score: ${Math.floor(
+    winningWordLi.innerHTML = `${jsonData[
+      i
+    ].word.toUpperCase()} -- Score: ${Math.floor(
       (jsonData[i].score / jsonData[0].score) * 100
     )}`;
   }

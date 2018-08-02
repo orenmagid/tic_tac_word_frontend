@@ -82,7 +82,7 @@ button {
 }
 
 body {
-  background-image: url("/Users/orenmagid/Development/Mod_3_Final_Project/tic_word_tac_frontend/images/old-paper-texture.png");
+  background-image: url("images/old-paper-texture.png");
 
   background-size: cover;
 }

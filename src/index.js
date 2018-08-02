@@ -394,9 +394,9 @@ function displayWinningWords(jsonData) {
   for (var i = 0; i < 10; i++) {
     let winningWordLi = document.createElement("li");
     winningWordsList.appendChild(winningWordLi);
-    winningWordLi.innerHTML = `${toTitleCase(
-      jsonData[i].word
-    )} -- Score: ${Math.floor((jsonData[i].score / jsonData[0].score) * 100)}`;
+    winningWordLi.innerHTML = `${toTitleCase(jsonData[i].word)} -- ${Math.floor(
+      (jsonData[i].score / jsonData[0].score) * 100
+    )} points`;
   }
 }
 

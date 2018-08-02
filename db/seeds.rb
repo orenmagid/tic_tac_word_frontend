@@ -46,9 +46,8 @@ word_array = ["abate", "aberrant", "abjure", "abscond", "abstain", "acumen",
   'spurious', 'stolid', 'subjective', 'substantiate', 'subversive', 'sufficient', 'superbly', 'supine', 'supplant', 'sycophant',
   'synthesize', 'tacit', 'taciturn', 'temperance', 'tenuous', 'timorous', 'tirade', 'torpor', 'tortuous', 'tractable',
   'transient', 'ubiquitous', 'unadorned', 'undermine', 'underscore', 'untenable', 'vacillate', 'venality',
-  'venerate', 'veracity', 'verbose', 'vexation', 'volatile', 'whimsical', 'zeal']
-
-  word_array2 = ['account', 'act', 'addition', 'adjustment', 'advertisement', 'agreement', 'air', 'amount', 'amusement', 'animal', 'answer', 'apparatus', 'approval','argument', 'art',
+  'venerate', 'veracity', 'verbose', 'vexation', 'volatile', 'whimsical', 'zeal', 'account', 'act', 'addition', 'adjustment', 'advertisement', 'agreement', 'air', 'amount', 'amusement', 'animal', 'answer',
+  'apparatus', 'approval','argument', 'art',
      'attack', 'attempt', 'attention', 'attraction', 'authority', 'back', 'balance', 'base', 'behaviour', 'belief', 'birth', 'bit', 'bite', 'blood', 'blow', 'body', 'brass', 'bread', 'breath', 'brother',
       'building', 'burn', 'business', 'butter','canvas', 'care', 'cause', 'chalk', 'chance', 'change', 'cloth', 'coal', 'colour', 'comfort', 'committee', 'company', 'comparison', 'competition', 'condition',
       'connection', 'control', 'cook', 'copper', 'copy', 'cork', 'cotton', 'cough', 'country', 'cover', 'crack', 'credit', 'crime', 'crush', 'cry', 'current', 'curve', 'damage', 'danger', 'daughter',
@@ -95,6 +94,6 @@ word_array.each do |value|
   Word.create(label: value)
 end
 
-word_array2.each do |value|
-  Word.create(label: value )
-end
+# word_array2.each do |value|
+#   Word.create(label: value )
+# end

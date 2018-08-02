@@ -57,12 +57,14 @@
   display: flex;
   justify-content: space-between;
   margin-top: 50px;
+  margin-right: 25px;
+  margin-left: 25px;
 }
 
 .flexcell {
   flex: 1;
-  margin-right: 25px;
-  margin-left: 25px;
+  /* margin-right: 25px;
+  margin-left: 25px; */
 }
 
 .center {
@@ -78,9 +80,9 @@ button {
   margin: 0 auto;
 }
 
-.margin-top {
+/* .margin-top {
   margin-top: 50px;
-}
+} */
 
 body {
   background-image: url("images/old-paper-texture.png");

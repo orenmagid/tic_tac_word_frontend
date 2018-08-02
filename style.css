@@ -11,6 +11,7 @@
   text-align: center;
   line-height: 133.3333333333px;
   border-radius: 3px;
+  border: 1px solid black;
   overflow: hidden;
 }
 
@@ -81,5 +82,11 @@ button {
 }
 
 body {
-  background-image: url("https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjgxoXo_87cAhVvRN8KHUeiBXwQjRx6BAgBEAU&url=https%3A%2F%2Fwww.freepik.com%2Ffree-vector%2Fwrinkled-paper-texture_851248.htm&psig=AOvVaw2q0-oM28UQB5krjNEOacvA&ust=1533320941769610");
+  background-image: url("/Users/orenmagid/Development/Mod_3_Final_Project/tic_word_tac_frontend/images/old-paper-texture.png");
+
+  background-size: cover;
+}
+
+img {
+  opacity: 0.9;
 }

@@ -50,15 +50,7 @@ function getBoards() {
   console.log("getBoards");
   fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/boards`)
     .then(response => response.json())
-    .then(boards => {
-      if (boards.length > 0) {
-        reduceToTopTenBoards(boards);
-      } else {
-        let leaderBoardLi = document.createElement("li");
-        leaderBoardLi.innerHTML = `You are the first person to play this game, intrepid gamer that you are! Grab that high score while you can!`;
-        leaderBoardList.appendChild(leaderBoardLi);
-      }
-    });
+    .then(boards => reduceToTopTenBoards(boards));
 }
 
 function reduceToTopTenBoards(boards) {
@@ -79,6 +71,12 @@ function reduceToTopTenBoards(boards) {
 }
 
 function displayLeaderBoards(sortedWinLoseDrawBoard) {
+  if (sortedWinLoseDrawBoard.length === 0) {
+    let leaderBoardLi = document.createElement("li");
+    leaderBoardLi.innerHTML = `You are the first person to play this game, intrepid gamer that you are! Grab that high score while you can!`;
+    leaderBoardList.appendChild(leaderBoardLi);
+  }
+
   if (sortedWinLoseDrawBoard.length < 10) {
     for (var i = 0; i < sortedWinLoseDrawBoard.length; i++) {
       let leaderBoardLi = document.createElement("li");

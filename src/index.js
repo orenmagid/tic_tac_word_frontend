@@ -337,7 +337,7 @@ function grabGuess(word) {
 
 function fetchSimilarWords(word, guessValue) {
   console.log("fetchSimilarWords", word, guessValue);
-  fetch(`http://api.datamuse.com/words?ml=${word.label}&max=250`)
+  fetch(`https://api.datamuse.com/words?ml=${word.label}&max=250`)
     .then(response => response.json())
     .then(jsonData => {
       checkForMatches(jsonData, guessValue);

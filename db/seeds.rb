@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 word_array = ["abate", "aberrant", "abjure", "abscond", "abstain", "acumen",
-  "admonish" "adulterate" "advocate", "aesthetic", "affectation",
+  "admonish", "adulterate", "advocate", "aesthetic", "affectation",
   "aggrandize", "alacrity", "alleviate", "amalgamate", "ambiguous", "ambivalent",
   "ameliorate", "amenable", "anachronism", "analogous", "anoint", "anomaly", "antipathy",
   "antithetical", "apathy", "appease", "arbitrary", "arcane",

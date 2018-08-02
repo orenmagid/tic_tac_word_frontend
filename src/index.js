@@ -23,6 +23,12 @@ let winningWordsList = document.getElementById("winning-words-list");
 let winningWordsDiv = document.getElementById("winning-words-div");
 let winningWordsHeading = document.getElementById("winning-words-heading");
 
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
+
 // Set up event listener on submit button of login form
 loginForm.addEventListener("submit", event => {
   event.preventDefault();
@@ -377,9 +383,9 @@ function displayWinningWords(jsonData) {
     for (var i = 0; i < jsonData.length; i++) {
       let winningWordLi = document.createElement("li");
       winningWordsList.appendChild(winningWordLi);
-      winningWordLi.innerHTML = `${jsonData[
-        i
-      ].word.toUpperCase()} -- Score: ${Math.floor(
+      winningWordLi.innerHTML = `${toTitleCase(
+        jsonData[i].word
+      )} -- Score: ${Math.floor(
         (jsonData[i].score / jsonData[0].score) * 100
       )}`;
     }
@@ -388,11 +394,9 @@ function displayWinningWords(jsonData) {
   for (var i = 0; i < 10; i++) {
     let winningWordLi = document.createElement("li");
     winningWordsList.appendChild(winningWordLi);
-    winningWordLi.innerHTML = `${jsonData[
-      i
-    ].word.toUpperCase()} -- Score: ${Math.floor(
-      (jsonData[i].score / jsonData[0].score) * 100
-    )}`;
+    winningWordLi.innerHTML = `${toTitleCase(
+      jsonData[i].word
+    )} -- Score: ${Math.floor((jsonData[i].score / jsonData[0].score) * 100)}`;
   }
 }
 

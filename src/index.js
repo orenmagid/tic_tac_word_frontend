@@ -485,12 +485,14 @@ function declareWinner(winningSymbol) {
   startButton.style.display = "block";
   results.innerHTML = "";
   if (winningSymbol === "X") {
-    gameResults.innerHTML = `You got three Xs in a row. You win!`;
+    gameResults.innerHTML = `You got three Xs in a row. You win! We've added 100 points to your overall score.`;
     currentBoard.status = "Won";
+    currentBoard.score += 100;
   }
   if (winningSymbol === "O") {
-    gameResults.innerHTML = `The computer got three Os in a row. You lose!`;
+    gameResults.innerHTML = `The computer got three Os in a row. You lose! We've subtracted 100 points from your overall score.`;
     currentBoard.status = "Lost";
+    currentBoard.score -= 100;
   }
   if (currentBoard.id === null) {
     postBoard();

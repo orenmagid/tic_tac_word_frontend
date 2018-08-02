@@ -37,10 +37,19 @@ loginForm.addEventListener("submit", event => {
 
 // Fetches all boards from backend
 function getBoards() {
+  leaderBoardList.innerHTML = "";
   console.log("getBoards");
-  fetch(`http://localhost:3000/api/v1/boards`)
+  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/boards`)
     .then(response => response.json())
-    .then(boards => reduceToTopTenBoards(boards));
+    .then(boards => {
+      if (boards.length > 0) {
+        reduceToTopTenBoards(boards);
+      } else {
+        let leaderBoardLi = document.createElement("li");
+        leaderBoardLi.innerHTML = `You are the first person to play this game, intrepid gamer that you are! Grab that high score while you can!`;
+        leaderBoardList.appendChild(leaderBoardLi);
+      }
+    });
 }
 
 function reduceToTopTenBoards(boards) {
@@ -61,19 +70,31 @@ function reduceToTopTenBoards(boards) {
 }
 
 function displayLeaderBoards(sortedWinLoseDrawBoard) {
-  sortedWinLoseDrawBoard.forEach(function(board) {
-    let leaderBoardLi = document.createElement("li");
-    leaderBoardLi.innerHTML = `${board.user.username} -- Score: ${
-      board.score
-    } -- Status: ${board.status} -- Date: ${board.play_date}`;
-    leaderBoardList.appendChild(leaderBoardLi);
-  });
+  if (sortedWinLoseDrawBoard.length < 10) {
+    for (var i = 0; i < sortedWinLoseDrawBoard.length; i++) {
+      let leaderBoardLi = document.createElement("li");
+      let board = sortedWinLoseDrawBoard[i];
+      leaderBoardLi.innerHTML = `${board.user.username} -- Score: ${
+        board.score
+      } -- Status: ${board.status} -- Date: ${board.play_date}`;
+      leaderBoardList.appendChild(leaderBoardLi);
+    }
+  } else {
+    for (var i = 0; i < 10; i++) {
+      let leaderBoardLi = document.createElement("li");
+      let board = sortedWinLoseDrawBoard[i];
+      leaderBoardLi.innerHTML = `${board.user.username} -- Score: ${
+        board.score
+      } -- Status: ${board.status} -- Date: ${board.play_date}`;
+      leaderBoardList.appendChild(leaderBoardLi);
+    }
+  }
 }
 
 // Fetches all users from backend
 function getUser(username) {
   console.log("getUser");
-  fetch(`http://localhost:3000/api/v1/users`)
+  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/users`)
     .then(response => response.json())
     .then(function(users) {
       checkForExistingUser(users, username);
@@ -106,7 +127,7 @@ function postUser(username) {
   console.log("postUser");
   let data = { username: username };
 
-  fetch(`http://localhost:3000/api/v1/users`, {
+  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/users`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -167,6 +188,7 @@ function startNewGame() {
 // when square has been clicked, sets off chain of events
 // by calling fetchRandomWord
 function squareClicked(event) {
+  gameBoard.removeEventListener("click", squareClicked);
   event.target.classList.add("selected-space");
   if (gameSaveButton.style.display === "none") {
     gameSaveButton.style.display = "block";
@@ -247,7 +269,7 @@ function createAndAppendSavedGameLi(board) {
 }
 
 function fetchRandomWord() {
-  fetch(`http://localhost:3000/api/v1/words`)
+  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/words`)
     .then(response => response.json())
     .then(function(word) {
       console.log("fetchRandomWord", word);
@@ -279,7 +301,7 @@ function fetchRandomWord() {
 
 function patchWord(word) {
   let data = { user_ids: currentUser.id };
-  fetch(`http://localhost:3000/api/v1/words/${word.id}`, {
+  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/words/${word.id}`, {
     method: "PATCH",
     body: JSON.stringify(data),
     headers: {
@@ -302,6 +324,7 @@ function displayWord(word) {
 function grabGuess(word) {
   let guessForm = document.getElementById("guess-form");
   guessForm.addEventListener("submit", function(event) {
+    gameBoard.addEventListener("click", squareClicked);
     event.preventDefault();
     let guessValue = document.getElementById("guess").value.toLowerCase();
     fetchSimilarWords(word, guessValue);
@@ -509,7 +532,7 @@ function postBoard() {
     r3c3: currentBoard.r3c3
   };
 
-  fetch(`http://localhost:3000/api/v1/boards`, {
+  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/boards`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -520,6 +543,7 @@ function postBoard() {
     .then(function(board) {
       console.log(board);
       createAndAppendSavedGameLi(board);
+      getBoards();
     });
 }
 
@@ -540,19 +564,25 @@ function patchBoard() {
     r3c3: currentBoard.r3c3
   };
 
-  fetch(`http://localhost:3000/api/v1/boards/${currentBoard.id}`, {
-    method: "PATCH",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json"
+  fetch(
+    `https://shielded-castle-10591.herokuapp.com/api/v1/boards/${
+      currentBoard.id
+    }`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
     }
-  })
+  )
     .then(response => response.json())
     .then(function(board) {
       console.log("Just ran 'patchBoard' function", board);
       let liToDelete = document.getElementById(`board-${board.id}`);
       liToDelete.parentNode.removeChild(liToDelete);
       createAndAppendSavedGameLi(board);
+      getBoards();
     });
 }
 

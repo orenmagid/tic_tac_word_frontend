@@ -198,17 +198,21 @@ function squareClicked(event) {
   winningWordsList.innerHTML = "";
   winningWordsHeading.innerHTML = "";
 
-  gameBoard.removeEventListener("click", squareClicked);
-  event.target.classList.add("selected-space");
-  if (gameSaveButton.style.display === "none") {
-    gameSaveButton.style.display = "block";
-  }
-  results.innerHTML = "";
-  square = event.target.id;
-  fetchRandomWord();
+  if (Array.from(event.target.classList).includes("selected-space")) {
+    console.log("You are so naughty, you cheater!");
+  } else {
+    gameBoard.removeEventListener("click", squareClicked);
+    event.target.classList.add("selected-space");
+    if (gameSaveButton.style.display === "none") {
+      gameSaveButton.style.display = "block";
+    }
+    results.innerHTML = "";
+    square = event.target.id;
+    fetchRandomWord();
 
-  gameInformation.style.display = "block";
-  currentBoard[square] = "clicked";
+    gameInformation.style.display = "block";
+    currentBoard[square] = "clicked";
+  }
 }
 
 // logs user out
@@ -665,6 +669,34 @@ function loadSavedBoard(board) {
   currentBoard.r3c1 = board.r3c1;
   currentBoard.r3c2 = board.r3c2;
   currentBoard.r3c3 = board.r3c3;
+
+  if (currentBoard.r1c1 === "X" || currentBoard.r1c1 === "O") {
+    document.getElementById("r1c1").classList.add("selected-space");
+  }
+  if (currentBoard.r1c2 === "X" || currentBoard.r1c2 === "O") {
+    document.getElementById("r1c2").classList.add("selected-space");
+  }
+  if (currentBoard.r1c3 === "X" || currentBoard.r1c3 === "O") {
+    document.getElementById("r1c3").classList.add("selected-space");
+  }
+  if (currentBoard.r2c1 === "X" || currentBoard.r2c1 === "O") {
+    document.getElementById("r2c1").classList.add("selected-space");
+  }
+  if (currentBoard.r2c2 === "X" || currentBoard.r2c2 === "O") {
+    document.getElementById("r2c2").classList.add("selected-space");
+  }
+  if (currentBoard.r2c3 === "X" || currentBoard.r2c3 === "O") {
+    document.getElementById("r2c3").classList.add("selected-space");
+  }
+  if (currentBoard.r3c1 === "X" || currentBoard.r3c1 === "O") {
+    document.getElementById("r3c1").classList.add("selected-space");
+  }
+  if (currentBoard.r3c2 === "X" || currentBoard.r3c2 === "O") {
+    document.getElementById("r3c2").classList.add("selected-space");
+  }
+  if (currentBoard.r3c3 === "X" || currentBoard.r3c3 === "O") {
+    document.getElementById("r3c3").classList.add("selected-space");
+  }
 
   document.getElementById("r1c1").innerHTML =
     board.r1c1 === "clicked" ? "" : board.r1c1;

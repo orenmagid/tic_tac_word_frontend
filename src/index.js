@@ -378,7 +378,7 @@ function checkForMatches(jsonData, guessValue, word) {
 
 function displayWinningWords(jsonData, word) {
   winningWordsHeading.innerHTML = `Top Ten High Scoring Words for "${toTitleCase(
-    word
+    word.label
   )}"`;
 
   if (jsonData.length < 10) {

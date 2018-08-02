@@ -362,7 +362,7 @@ function checkForMatches(jsonData, guessValue) {
 
   if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
     displayLose();
-    displayWinningWords(jsonData);
+    displayWinningWords(jsonData, guessValue);
   } else {
     jsonData.forEach(function(returnedWord) {
       if (guessValue == returnedWord.word) {
@@ -376,8 +376,10 @@ function checkForMatches(jsonData, guessValue) {
   guessInput.value = "";
 }
 
-function displayWinningWords(jsonData) {
-  winningWordsHeading.innerHTML = "Top Ten High Scoring Words";
+function displayWinningWords(jsonData, guessValue) {
+  winningWordsHeading.innerHTML = `Top Ten High Scoring Words for "${toTitleCase(
+    guessValue
+  )}"`;
 
   if (jsonData.length < 10) {
     for (var i = 0; i < jsonData.length; i++) {

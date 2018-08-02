@@ -488,11 +488,13 @@ function declareWinner(winningSymbol) {
     gameResults.innerHTML = `You got three Xs in a row. You win! We've added 100 points to your overall score.`;
     currentBoard.status = "Won";
     currentBoard.score += 100;
+    score.innerHTML = `Current Score: ${currentBoard.score}`;
   }
   if (winningSymbol === "O") {
     gameResults.innerHTML = `The computer got three Os in a row. You lose! We've subtracted 100 points from your overall score.`;
     currentBoard.status = "Lost";
     currentBoard.score -= 100;
+    score.innerHTML = `Current Score: ${currentBoard.score}`;
   }
   if (currentBoard.id === null) {
     postBoard();

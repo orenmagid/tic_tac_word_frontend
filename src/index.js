@@ -371,12 +371,13 @@ function checkForMatches(jsonData, guessValue) {
 function displayWinningWords(jsonData) {
   for (var i = 0; i < 10; i++) {
     let winningWordsHeading = document.createElement("h3");
+    winningWordsHeading.innerHTML = "Winning Words";
     winningWordsList.appendChild(winningWordsHeading);
     let winningWordLi = document.createElement("li");
     winningWordsList.appendChild(winningWordLi);
     winningWordLi.innerHTML = `Word: ${jsonData[i].word}, Score: ${Math.floor(
-      jsonData[i].score / jsonData[0].score
-    ) * 100}`;
+      (jsonData[i].score / jsonData[0].score) * 100
+    )}`;
   }
 }
 

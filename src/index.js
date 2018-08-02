@@ -197,6 +197,9 @@ function startNewGame() {
 // when square has been clicked, sets off chain of events
 // by calling fetchRandomWord
 function squareClicked(event) {
+  winningWordsList.innerHTML = "";
+  winningWordsHeading.innerHTML = "";
+
   gameBoard.removeEventListener("click", squareClicked);
   event.target.classList.add("selected-space");
   if (gameSaveButton.style.display === "none") {

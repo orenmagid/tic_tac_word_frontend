@@ -19,6 +19,7 @@ let userInfoH3 = document.getElementById("username-display");
 let leaderBoardList = document.getElementById("leader-board-list");
 let leaderBoardHeader = document.getElementById("leader-board-header");
 let leaderBoardDiv = document.getElementById("leader-board-div");
+let winningWordsList = document.getElementById("winning-words-list");
 
 // Set up event listener on submit button of login form
 loginForm.addEventListener("submit", event => {
@@ -369,7 +370,10 @@ function checkForMatches(jsonData, guessValue) {
 
 function displayWinningWords(jsonData) {
   for (var i = 0; i < 10; i++) {
-    console.log(jsonData[i].word, jsonData[i].score);
+    let winningWordLi = document.createElement("li");
+    winningWordsList.appendChild(winningWordLi);
+    winningWordLi.innerHTML = `Word: ${jsonData[i].word}, Score: ${jsonData[i]
+      .score / jsonData[0].score}`;
   }
 }
 

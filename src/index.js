@@ -23,6 +23,10 @@ let winningWordsList = document.getElementById("winning-words-list");
 let winningWordsDiv = document.getElementById("winning-words-div");
 let winningWordsHeading = document.getElementById("winning-words-heading");
 let gameIntroductionDiv = document.getElementById("game-introduction");
+let timerId;
+let timeElasped;
+let countdown = document.getElementById("countdown");
+let counter = document.getElementById("counter");
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -32,6 +36,7 @@ function toTitleCase(str) {
 
 // Set up event listener on submit button of login form
 loginForm.addEventListener("submit", event => {
+  clearInterval(timerId);
   event.preventDefault();
   userInfoDiv.style.display = "block";
   leaderBoardDiv.style.display = "block";
@@ -200,6 +205,10 @@ function startNewGame() {
 function squareClicked(event) {
   winningWordsList.innerHTML = "";
   winningWordsHeading.innerHTML = "";
+  clearInterval(timerId);
+  counter.innerHTML = 0;
+  counter.style.display = "block";
+  countdown.style.display = "block";
 
   if (Array.from(event.target.classList).includes("selected-space")) {
     console.log("You are so naughty, you cheater!");
@@ -237,9 +246,17 @@ function logOut() {
   score.innerHTML = "";
   savedGamesList.innerHTML = "";
   leaderBoardDiv.style.display = "none";
+  clearInterval(timerId);
+  counter.innerHTML = 0;
+  counter.style.display = "none";
+  countdown.style.display = "none";
 }
 
 function saveGame() {
+  clearInterval(timerId);
+  counter.innerHTML = 0;
+  counter.style.display = "none";
+  countdown.style.display = "none";
   console.log("Inside 'saveGame' function");
   gameBoard.removeEventListener("click", squareClicked);
   startButton.style.display = "block";
@@ -337,12 +354,21 @@ function displayWord(word) {
   console.log("displayWord", word);
   let wordDisplay = document.getElementById("word-display");
   wordDisplay.innerHTML = `${word.label}`;
+  timerId = setInterval(
+    () => (counter.innerHTML = parseInt(counter.innerHTML) + 1),
+    1000
+  );
   grabGuess(word);
 }
 
 function grabGuess(word) {
   let guessForm = document.getElementById("guess-form");
   guessForm.addEventListener("submit", function(event) {
+    clearInterval(timerId);
+    timeElapsed = parseInt(counter.innerHTML);
+    counter.innerHTML = 0;
+    counter.style.display = "none";
+    countdown.style.display = "none";
     gameBoard.addEventListener("click", squareClicked);
     event.preventDefault();
     let guessValue = document.getElementById("guess").value.toLowerCase();
@@ -423,10 +449,10 @@ function displayLose() {
 function displayWin(returnedWord, jsonData) {
   console.log("displayWin", square);
   score.innerHTML = `Current Score: ${(currentBoard.score += Math.floor(
-    (returnedWord.score / jsonData[0].score) * 100
+    (returnedWord.score / jsonData[0].score) * 100 * (1 - timeElapsed * 0.05)
   ))}`;
-  results.innerHTML = `Correct! You've earned ${Math.floor(
-    (returnedWord.score / jsonData[0].score) * 100
+  results.innerHTML = `Correct! It took you ${timeElapsed} seconds to answer. You've earned ${Math.floor(
+    (returnedWord.score / jsonData[0].score) * 100 * (1 - timeElapsed * 0.05)
   )} points with the word "${returnedWord.word}".`;
 
   document.getElementById(`${square}`).innerHTML = "X";

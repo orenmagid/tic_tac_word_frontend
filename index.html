@@ -38,6 +38,9 @@
 
             <button class="btn center-block custom-btn btn-7" style="display: none;" id="save-game-button">Save Current Game</button>
             <button class="btn center-block custom-btn btn-12" type="button" id="start-button" name="start-button">Start New Game</button>
+
+            <h4 style="display: none;" id="countdown">Countdown:</h4>
+            <h3 style="display: none;" id="counter"> 0</h3>
         </div>
       </div>
       <div id="leader-board-div" style="display: none;" class="flexcell center">
@@ -51,7 +54,7 @@
     <div id="game-container">
 
 
-
+    <a href="#guess">
       <div class="game-board hide">
         <div class="game-board-row">
           <div class="game-board-space" id="r1c1" data-space="1,1"></div>
@@ -69,6 +72,7 @@
           <div class="game-board-space" id="r3c3" data-space="3,3"></div>
         </div>
     </div>
+    </a>
 
   </div>
 
@@ -104,7 +108,7 @@
 
         <div id="game-explanation">
         <p class="center">Here's how it works:  </p>
-        <ol>
+        <ul class="bulleted-list">
             <li>You'll be presented with an empty tic tac toe board.</li>
             <li>You, the user, will be Xs. The computer will be Os.</li>
             <li>Start by choosing a square.</li>
@@ -112,13 +116,16 @@
 
             <li>Your goal is to guess a word with a highly related meaning to this prompt.</li>
             <li>If your guess is in fact highly related to the prompt, you win the square. Otherwise, the computer wins the square. </li>
-            <li>There's more to this, though, than just winning the square. You will be awarded points for every square you win. How many points? Up to 100 points. The more closely related your guess is to the prompt, the more points you get.</li>
-            <li>In order to determine if your guess is closely related to the prompt, we use <a href="https://www.datamuse.com/api/">The Datamuse API</a>. It gives us the top 500 words with a related meaning to the prompt. If your guess is in this list, you win the square and  points based on how highly related your guess is to the prompt.</li>
+            <li>There's more to this, though, than just winning the square. You will be awarded points for every square you win. How many points? Up to 100 points. How many points you are awarded will depend on two factors: (1) how closely related your guess is to the prompt;  (2) how long it takes you to answer.</li>
+            <ul class="bulleted-list">
+              <li>In order to determine if your guess is closely related to the prompt, we use <a href="https://www.datamuse.com/api/">The Datamuse API</a>. It gives us the top 500 words with a related meaning to the prompt. If your guess is in this list, you win the square and  points based on how highly related your guess is to the prompt.</li>
+              <li>For every second it takes you to answer, we deduct five percent of the meaning related score.</li>
+            </ul>
             <li>If at any point the tic tac toe board has three Xs in a row, you win. If you allow three Os in a row, you lose.</li>
             <li>If you win, 100 points is added to your score. If you lose, 100 points is subtracted by your score.</li>
             <li>Winning is great and all, but your goal should be to win with as many points as possible.</li>
 
-        </ol>
+        </ul>
         </div>
 
       </div>

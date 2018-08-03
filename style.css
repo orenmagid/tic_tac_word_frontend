@@ -4,6 +4,14 @@ body,
   height: 100%;
 } */
 
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
 body {
   margin: 0;
 }
@@ -82,6 +90,10 @@ body {
 
 ul {
   list-style: none;
+}
+
+.bulleted-list {
+  list-style-type: disc;
 }
 
 button {
@@ -664,4 +676,21 @@ h2,
 h3,
 h4 {
   font-family: "Special Elite", cursive;
+}
+
+#counter {
+  background-color: black;
+  color: white;
+  display: table;
+  padding: 10px;
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 0px;
+  border-radius: 3px;
+  border-color: #f2f2f2;
+  border: 5px;
+}
+
+#countdown {
+  margin-top: 50px;
 }

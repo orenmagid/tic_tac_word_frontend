@@ -48,6 +48,7 @@
     <div id="game-container">
 
 
+
       <div class="game-board hide">
         <div class="game-board-row">
           <div class="game-board-space" id="r1c1" data-space="1,1"></div>
@@ -85,8 +86,38 @@
         </form>
       </div>
       <div>
-        <h2 id="word-results"></h2>
+        <h3 id="word-results"></h3>
         <h2 id="game-results"></h2>
+      </div>
+
+      <div id="game-introduction">
+        <div class="center">
+        <h1>
+          Welcome to Tic Tac Word!
+        </h1>
+
+        <p id="game-explanation-brief">Tic Tac Word is a one-player game that is a cross between tic tac toe and a word game. Or maybe it's a cross between tic tac toe and Family Feud.</p>
+        </div>
+
+        <div id="game-explanation">
+        <p class="center">Here's how it works:  </p>
+        <ol>
+            <li>You'll be presented with an empty tic tac toe board.</li>
+            <li>You, the user, will be Xs. The computer will be Os.</li>
+            <li>Start by choosing a square.</li>
+            <li>You'll be presented with a word.</li>
+
+            <li>Your goal is to guess a word with a highly related meaning to this initial word.</li>
+            <li>If your guess is in fact highly related to the initial word, you win the square. Otherwise, the computer wins the square. </li>
+            <li>There's more to this, though, than just winning the square. You will be awarded points for every square you win. How many points? Up to 100 points. The more closely related your guess is to the initial word, the more points you get.</li>
+            <li>In order to determine if your guess is closely related to the initial word, we use <a href="https://www.datamuse.com/api/">The Datamuse API</a>. It gives us the top 500 words with a related meaning to the initial word. If your guess is in this list, you win the square and  points based on how highly related your guess is to the initial word.</li>
+            <li>If at any point the tic tac toe board has three Xs in a row, you win. If you allow three Os in a row, you lose.</li>
+            <li>If you win, 100 points is added to your score. If you lose, 100 points is subtracted by your score.</li>
+            <li>Winning is great and all, but your goal should be to win with as many points as possible.</li>
+
+        </ol>
+        </div>
+
       </div>
 
   </div>

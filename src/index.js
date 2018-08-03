@@ -22,6 +22,7 @@ let leaderBoardDiv = document.getElementById("leader-board-div");
 let winningWordsList = document.getElementById("winning-words-list");
 let winningWordsDiv = document.getElementById("winning-words-div");
 let winningWordsHeading = document.getElementById("winning-words-heading");
+let gameIntroductionDiv = document.getElementById("game-introduction");
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -172,6 +173,7 @@ function displayUser() {
 // starts new game
 function startNewGame() {
   clearBoard();
+  gameIntroductionDiv.style.display = "none";
 
   document.getElementById("r1c1").classList.remove("selected-space");
   document.getElementById("r1c2").classList.remove("selected-space");
@@ -218,6 +220,7 @@ function squareClicked(event) {
 
 // logs user out
 function logOut() {
+  gameIntroductionDiv.style.display = "block";
   currentUser = null;
   userInfoDiv.style.display = "none";
   userInfoH3.innerHTML = ``;
@@ -646,6 +649,7 @@ function clearBoard() {
 }
 
 function loadSavedBoard(board) {
+  gameIntroductionDiv.style.display = "none";
   console.log("loadSavedBoard");
   let startButton = document.getElementById("start-button");
   startButton.style.display = "none";

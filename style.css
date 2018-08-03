@@ -594,6 +594,7 @@ button {
 #save-game-button {
   margin: auto;
   margin-top: 50px;
+  margin-bottom: 50px;
   /* text-align: center; */
   /* align-content: center;
   justify: center; */
@@ -602,4 +603,32 @@ button {
 
 #start-button {
   margin: auto;
+}
+
+#username-input {
+  margin-top: 50px;
+}
+
+#game-introduction {
+  margin-top: 30px;
+}
+
+#game-explanation {
+  margin-top: 25px;
+  margin-left: 25px;
+  text-align: left;
+  align-content: left;
+  justify: center;
+}
+
+#game-explanation-brief {
+  margin-top: 25px;
+}
+
+#word-results {
+  margin-top: 25px;
+}
+
+#word-display {
+  margin-top: 25px;
 }

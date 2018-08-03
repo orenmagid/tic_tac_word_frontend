@@ -555,7 +555,7 @@ function declareWinner(winningSymbol) {
   console.log("Inside declare winner function");
   gameBoard.removeEventListener("click", squareClicked);
   startButton.style.display = "block";
-  results.innerHTML = "";
+  // results.innerHTML = "";
   if (winningSymbol === "X") {
     gameResults.innerHTML = `You got three Xs in a row. You win! We've added 100 points to your overall score.`;
     currentBoard.status = "Won";
@@ -579,7 +579,7 @@ function declareWinner(winningSymbol) {
 function declareDraw() {
   gameBoard.removeEventListener("click", squareClicked);
   startButton.style.display = "block";
-  results.innerHTML = "";
+  // results.innerHTML = "";
   gameResults.innerHTML = `Game Over! No winner here!`;
   currentBoard.status = "Draw";
   if (currentBoard.id === null) {

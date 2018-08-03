@@ -440,6 +440,13 @@ function displayWinningWords(jsonData, word) {
 
 function displayLose(guessValue) {
   console.log("displayLose", square);
+  if (guessValue === "") {
+    results.innerHTML = `Nope! "${toTitleCase(
+      guessValue
+    )}" gets you no points. The computer gets an O!`;
+  } else {
+    results.innerHTML = `Nope! The computer gets an O!`;
+  }
   results.innerHTML = `Nope! "${toTitleCase(
     guessValue
   )}" gets you no points. The computer gets an O!`;

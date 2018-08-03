@@ -447,9 +447,6 @@ function displayLose(guessValue) {
   } else {
     results.innerHTML = `Nope! The computer gets an O!`;
   }
-  results.innerHTML = `Nope! "${toTitleCase(
-    guessValue
-  )}" gets you no points. The computer gets an O!`;
   currentBoard[square] = "O";
   document.getElementById(`${square}`).innerHTML = "O";
   checkForWinner();

@@ -646,9 +646,20 @@ function clearBoard() {
   document.getElementById("r3c1").innerHTML = "";
   document.getElementById("r3c2").innerHTML = "";
   document.getElementById("r3c3").innerHTML = "";
+
+  document.getElementById("r1c1").classList.remove("selected-space");
+  document.getElementById("r1c2").classList.remove("selected-space");
+  document.getElementById("r1c3").classList.remove("selected-space");
+  document.getElementById("r2c1").classList.remove("selected-space");
+  document.getElementById("r2c2").classList.remove("selected-space");
+  document.getElementById("r2c3").classList.remove("selected-space");
+  document.getElementById("r3c1").classList.remove("selected-space");
+  document.getElementById("r3c2").classList.remove("selected-space");
+  document.getElementById("r3c3").classList.remove("selected-space");
 }
 
 function loadSavedBoard(board) {
+  clearBoard();
   gameIntroductionDiv.style.display = "none";
   console.log("loadSavedBoard");
   let startButton = document.getElementById("start-button");

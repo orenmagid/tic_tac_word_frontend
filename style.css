@@ -103,11 +103,15 @@ img {
 }
 
 button {
+  border-radius: 3px;
   margin: 20px;
-}
-.custom-btn {
   padding: 10px 25px;
-  font-family: "Roboto", sans-serif;
+  font-family: "Special Elite", cursive;
+}
+.custom-btn,
+input {
+  padding: 10px 25px;
+  font-family: "Special Elite", cursive;
   font-weight: 500;
   background: transparent;
   outline: none !important;
@@ -115,6 +119,13 @@ button {
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
+}
+
+input {
+  cursor: auto;
+  border-radius: 3px;
+  border: 2px solid #000;
+  background: #f2f2f2;
 }
 /**** BTN No. 1 ****/
 .btn-1 {
@@ -568,6 +579,7 @@ button {
 .btn-12 {
   border: 2px solid #000;
   z-index: 1;
+  background: #f2f2f2;
 }
 .btn-12:after {
   position: absolute;
@@ -635,4 +647,13 @@ button {
 
 #start-button {
   margin-top: 25px;
+}
+
+h1 {
+  font-family: "Permanent Marker", cursive;
+}
+h2,
+h3,
+h4 {
+  font-family: "Special Elite", cursive;
 }

@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Special+Elite" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+
   </head>
   <body>
     <div class="flexcontainer full-screen">
@@ -15,13 +17,14 @@
       <div id="user" class="flexcell center ">
         <form id="user-form">
           <input id="username-input" type="text" name="username" placeholder="Username"><br>
+          <button class="custom-btn btn-11" type="submit">Submit</button>
 
-          <input style="margin-top: 15px;" class="custom-btn btn-11" type="submit" value="submit">
+          <!-- <input style="margin-top: 15px;" class="custom-btn btn-11" type="submit" value="submit"> -->
         </form>
         <div id="user-info">
           <h3 id="username-display"></h3>
 
-          <h4 id="saved-games-heading" style="display: none;">Your Saved Games:</h4>
+          <h4 id="saved-games-heading" style="display: none;">Your Saved Games</h4>
 
           <ul id="saved-games-list"></ul>
         </div>
@@ -34,7 +37,7 @@
           <h3 id=current-game-score></h3>
 
             <button class="btn center-block custom-btn btn-7" style="display: none;" id="save-game-button">Save Current Game</button>
-            <button class="btn center-block custom-btn btn-1" type="button" id="start-button" name="start-button">Start New Game</button>
+            <button class="btn center-block custom-btn btn-12" type="button" id="start-button" name="start-button">Start New Game</button>
         </div>
       </div>
       <div id="leader-board-div" style="display: none;" class="flexcell center">
@@ -105,12 +108,12 @@
             <li>You'll be presented with an empty tic tac toe board.</li>
             <li>You, the user, will be Xs. The computer will be Os.</li>
             <li>Start by choosing a square.</li>
-            <li>You'll be presented with a word.</li>
+            <li>You'll be prompted with a word.</li>
 
-            <li>Your goal is to guess a word with a highly related meaning to this initial word.</li>
-            <li>If your guess is in fact highly related to the initial word, you win the square. Otherwise, the computer wins the square. </li>
-            <li>There's more to this, though, than just winning the square. You will be awarded points for every square you win. How many points? Up to 100 points. The more closely related your guess is to the initial word, the more points you get.</li>
-            <li>In order to determine if your guess is closely related to the initial word, we use <a href="https://www.datamuse.com/api/">The Datamuse API</a>. It gives us the top 500 words with a related meaning to the initial word. If your guess is in this list, you win the square and  points based on how highly related your guess is to the initial word.</li>
+            <li>Your goal is to guess a word with a highly related meaning to this prompt.</li>
+            <li>If your guess is in fact highly related to the prompt, you win the square. Otherwise, the computer wins the square. </li>
+            <li>There's more to this, though, than just winning the square. You will be awarded points for every square you win. How many points? Up to 100 points. The more closely related your guess is to the prompt, the more points you get.</li>
+            <li>In order to determine if your guess is closely related to the prompt, we use <a href="https://www.datamuse.com/api/">The Datamuse API</a>. It gives us the top 500 words with a related meaning to the prompt. If your guess is in this list, you win the square and  points based on how highly related your guess is to the prompt.</li>
             <li>If at any point the tic tac toe board has three Xs in a row, you win. If you allow three Os in a row, you lose.</li>
             <li>If you win, 100 points is added to your score. If you lose, 100 points is subtracted by your score.</li>
             <li>Winning is great and all, but your goal should be to win with as many points as possible.</li>

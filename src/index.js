@@ -397,7 +397,7 @@ function checkForMatches(jsonData, guessValue, word) {
   });
 
   if (simpleReturnedWordArray.indexOf(guessValue) === -1) {
-    displayLose();
+    displayLose(guessValue);
     displayWinningWords(jsonData, word);
   } else {
     jsonData.forEach(function(returnedWord) {
@@ -438,9 +438,11 @@ function displayWinningWords(jsonData, word) {
   }
 }
 
-function displayLose() {
+function displayLose(guessValue) {
   console.log("displayLose", square);
-  results.innerHTML = "Nope! The computer gets an O!";
+  results.innerHTML = `Nope! "${toTitleCase(
+    guessValue
+  )}" gets you no points. The computer gets an O!`;
   currentBoard[square] = "O";
   document.getElementById(`${square}`).innerHTML = "O";
   checkForWinner();

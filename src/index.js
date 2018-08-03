@@ -685,6 +685,7 @@ function clearBoard() {
 }
 
 function loadSavedBoard(board) {
+  results.innerHTML = "";
   clearBoard();
   gameIntroductionDiv.style.display = "none";
   console.log("loadSavedBoard");

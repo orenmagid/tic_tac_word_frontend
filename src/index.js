@@ -158,6 +158,7 @@ function displayUser() {
   logOutButton = document.createElement("button");
   logOutButton.innerHTML = "Log Out";
   userInfoDiv.appendChild(logOutButton);
+  logOutButton.classList.add("btn-11");
 
   loginForm.style.display = "none";
   startButton.style.display = "block";
@@ -226,6 +227,7 @@ function logOut() {
   clearBoard();
   gameInformation.style.display = "none";
   gameBoard.style.display = "none";
+  gameSaveButton.style.display = "none";
 
   gameResults.innerHTML = ``;
   results.innerHTML = ``;

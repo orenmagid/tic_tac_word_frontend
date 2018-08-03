@@ -250,6 +250,7 @@ function logOut() {
   counter.innerHTML = 0;
   counter.style.display = "none";
   countdown.style.display = "none";
+  winningWordsDiv.innerHTML = "";
 }
 
 function saveGame() {

@@ -54,7 +54,7 @@ loginForm.addEventListener("submit", event => {
 function getBoards() {
   leaderBoardList.innerHTML = "";
   console.log("getBoards");
-  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/boards`)
+  fetch(`https://tic-tac-word-backend.herokuapp.com/api/v1/boards`)
     .then(response => response.json())
     .then(boards => reduceToTopTenBoards(boards));
 }
@@ -107,7 +107,7 @@ function displayLeaderBoards(sortedWinLoseDrawBoard) {
 // Fetches all users from backend
 function getUser(username) {
   console.log("getUser");
-  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/users`)
+  fetch(`https://tic-tac-word-backend.herokuapp.com/api/v1/users`)
     .then(response => response.json())
     .then(function(users) {
       checkForExistingUser(users, username);
@@ -140,7 +140,7 @@ function postUser(username) {
   console.log("postUser");
   let data = { username: username };
 
-  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/users`, {
+  fetch(`https://tic-tac-word-backend.herokuapp.com/api/v1/users`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -306,7 +306,7 @@ function createAndAppendSavedGameLi(board) {
 }
 
 function fetchRandomWord() {
-  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/words`)
+  fetch(`https://tic-tac-word-backend.herokuapp.com/api/v1/words`)
     .then(response => response.json())
     .then(function(word) {
       console.log("fetchRandomWord", word);
@@ -338,7 +338,7 @@ function fetchRandomWord() {
 
 function patchWord(word) {
   let data = { user_ids: currentUser.id };
-  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/words/${word.id}`, {
+  fetch(`https://tic-tac-word-backend.herokuapp.com/api/v1/words/${word.id}`, {
     method: "PATCH",
     body: JSON.stringify(data),
     headers: {
@@ -615,7 +615,7 @@ function postBoard() {
     r3c3: currentBoard.r3c3
   };
 
-  fetch(`https://shielded-castle-10591.herokuapp.com/api/v1/boards`, {
+  fetch(`https://tic-tac-word-backend.herokuapp.com/api/v1/boards`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -648,7 +648,7 @@ function patchBoard() {
   };
 
   fetch(
-    `https://shielded-castle-10591.herokuapp.com/api/v1/boards/${
+    `https://tic-tac-word-backend.herokuapp.com/api/v1/boards/${
       currentBoard.id
     }`,
     {

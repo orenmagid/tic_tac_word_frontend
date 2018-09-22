@@ -1,6 +1,6 @@
 # Tic Tac Word
 
-This is the frontend repository for an app <a href="https://github.com/BrittBarrow">Brittany Barrow</a> and I worked on for the JavaScript Module of Flatiron School's Immersive Software Engineering Bootcamp. The backend repository is available <a href="https://github.com/orenmagid/tic_tac_word_backend">here</a>.
+This is the frontend repository for an app <a href="https://github.com/BrittBarrow">Brittany Barrow</a> and I worked on for the JavaScript Module of the Flatiron School's Immersive Software Engineering Bootcamp. The backend repository is available <a href="https://github.com/orenmagid/tic_tac_word_backend">here</a>.
 
 It's a (hopefully) fun game that combines tic tac toe and a vocabulary building, word-guessing game. 
 

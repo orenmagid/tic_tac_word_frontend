@@ -1,0 +1,329 @@
+/* html,
+body,
+.full-screen {
+  height: 100%;
+} */
+
+a:hover {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+}
+
+.game-board {
+  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.15);
+  width: 400px;
+  margin: auto;
+  margin-top: 25px;
+  font-size: 40px;
+  text-align: center;
+  line-height: 133.3333333333px;
+  border-radius: 3px;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+.game-board-row {
+  display: flex;
+}
+.game-board-row:last-child .game-board-space {
+  border-bottom: 0;
+}
+
+.game-board-space {
+  flex: 1;
+  height: 133.3333333333px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: #eeeeee;
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: #bbbbbb;
+}
+.game-board-space.selected-space,
+.game-board-space.selected-space:hover {
+  background-color: #627687;
+  color: white;
+  border-color: #262525;
+}
+.game-board-space:nth-child(3) {
+  border-right: 0;
+}
+.game-board-space:hover {
+  background: #e6e6e6;
+}
+
+#start-button {
+  display: none;
+}
+
+.flexcontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+.flexcell {
+  flex: 1;
+  /* margin-right: 25px;
+  margin-left: 25px; */
+}
+
+.center {
+  text-align: center;
+  align-content: center;
+  justify: center;
+}
+
+ul {
+  list-style: none;
+}
+
+.bulleted-list {
+  list-style-type: disc;
+}
+
+button {
+  margin: 0 auto;
+}
+
+/* .margin-top {
+  margin-top: 50px;
+} */
+
+body {
+  background-image: url("images/old-paper-texture.png");
+
+  background-size: cover;
+}
+
+img {
+  opacity: 0.9;
+}
+
+button {
+  border-radius: 3px;
+  margin: 20px;
+  padding: 10px 25px;
+  font-family: "Special Elite", cursive;
+}
+.custom-btn,
+input {
+  padding: 10px 25px;
+  font-family: "Special Elite", cursive;
+  font-weight: 500;
+  background: transparent;
+  outline: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+input {
+  cursor: auto;
+  border-radius: 3px;
+  border: 2px solid #000;
+  background: #f2f2f2;
+}
+
+input:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  padding-left: 30px;
+  padding-right: 20px;
+}
+/**** BTN No. 1 ****/
+.btn-1 {
+  border: 2px solid #000;
+}
+.btn-1:hover {
+  background: #000;
+  color: #fff;
+}
+.btn-1:active {
+  top: 2px;
+}
+
+/**** BTN No. 7 ****/
+.btn-7 {
+  border: 2px solid #000;
+  transition: all 0.3s ease;
+  background: #f2f2f2;
+}
+.btn-7:before {
+  position: absolute;
+  content: " ";
+  z-index: -1;
+  width: 25%;
+  top: 50%;
+  left: -15%;
+  height: 2px;
+  background: #000;
+  transition: all 0.3s ease;
+}
+.btn-7:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  padding-left: 30px;
+  padding-right: 20px;
+}
+.btn-7:hover:before {
+  left: -10%;
+}
+
+.btn-11 {
+  background: #f2f2f2;
+  border: 2px solid #000;
+  transition: all 0.3s ease;
+}
+.btn-11:before,
+.btn-11:after {
+  position: absolute;
+  content: " ";
+  z-index: -1;
+  width: 25%;
+  top: 50%;
+  height: 2px;
+  background: #000;
+  transition: all 0.3s ease;
+}
+.btn-11:before {
+  left: -10%;
+}
+.btn-11:after {
+  right: -10%;
+}
+.btn-11:hover {
+  background: #000;
+  color: #fff;
+}
+.btn-11:hover:before {
+  left: 0%;
+}
+.btn-11:hover:after {
+  right: 0%;
+}
+
+/**** BTN No. 12 ****/
+.btn-12 {
+  border: 2px solid #000;
+  z-index: 1;
+  background: #f2f2f2;
+}
+.btn-12:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background: #000;
+  transition: all 0.3s ease;
+}
+.btn-12:hover {
+  color: #fff;
+}
+.btn-12:hover:after {
+  top: 0;
+  height: 100%;
+}
+.btn-12:active {
+  top: 2px;
+}
+
+#save-game-button {
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  /* text-align: center; */
+  /* align-content: center;
+  justify: center; */
+  /* display: flex; */
+}
+
+#start-button {
+  margin: auto;
+}
+
+#username-input {
+  margin-top: 50px;
+}
+
+#game-introduction {
+  margin-top: 30px;
+}
+
+#game-explanation {
+  margin-top: 25px;
+  margin-left: 25px;
+  text-align: left;
+  align-content: left;
+  justify: center;
+}
+
+#game-explanation-brief {
+  margin-top: 25px;
+}
+
+#word-results {
+  margin-top: 25px;
+}
+
+#word-display {
+  margin-top: 25px;
+}
+
+#start-button {
+  margin-top: 25px;
+}
+
+h1 {
+  font-family: "Permanent Marker", cursive;
+}
+h2,
+h3,
+h4 {
+  font-family: "Special Elite", cursive;
+}
+
+#counter {
+  background-color: black;
+  color: white;
+  display: table;
+  padding: 10px;
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 0px;
+  border-radius: 10px;
+  border-color: #f2f2f2;
+  border: 5px;
+}
+
+#countdown {
+  margin-top: 50px;
+}
+
+#word-results {
+  margin-bottom: 15px;
+}
